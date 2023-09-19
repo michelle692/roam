@@ -1,24 +1,12 @@
-import logo from './logo.svg';
+import Globe from 'react-globe.gl';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Globe
+      globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+      atmosphereAltitude="0.2"
+    />
   );
 }
 
