@@ -1,5 +1,7 @@
 import React,  { useState } from 'react';
 import Globe from 'react-globe.gl';
+import React,  { useState } from 'react';
+import Globe from 'react-globe.gl';
 import './App.css';
 import { useState, useRef } from 'react';
 
