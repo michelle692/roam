@@ -1,28 +1,34 @@
 import React from 'react';
-import color from 'color';
-import Popup from 'reactjs-popup';
+import Modal from 'react-modal';
 
 const popupStyle = {
-    margin: 'auto',
-    background: color('#FFFFFF'),
-    paddingLeft: '200px',
-    paddingRight: '200px',
-    paddingTop: '100px',
-    paddingBottom: '100px',
-    borderRadius: '10px',
-    textAlign: 'center',
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)'
+    overlay: {
+        margin: 'auto',
+        background: 'rgba(217, 217, 217, 0.90)',
+        paddingLeft: '200px',
+        paddingRight: '200px',
+        paddingTop: '100px',
+        paddingBottom: '100px',
+        borderRadius: '10px',
+        textAlign: 'center',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+    },
+    content: {
+        background: 'rgba(0, 0, 0, 0)',
+        border: 'none',
+        fontFamily: 'Overpass Mono'
+    }
 }
 
-const Pop = ({children, trigger}) => {
+const Popup = ({children, open}) => {
     return (
-        <Popup trigger={trigger} modal nested>
-        <div style={popupStyle}>{children}</div>
-        </Popup>
+        <Modal isOpen={open}  backdrop="static" style={popupStyle}>
+            {children}
+        </Modal>
     )
 }
 
-export default Pop;
+export default Popup;
