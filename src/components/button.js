@@ -1,26 +1,41 @@
 import React from 'react';
-import color from 'color';
+import styled, {css} from 'styled-components';
+import "@fontsource/overpass-mono";
 
-const buttonStyle = {
-    margin: '10px',
-    fontSize: 19,
-    width: '250px',
-    height: '50px',
-    padding: '10px',
-    paddingLeft: '30px',
-    background: color('rgba(217, 217, 217, 0.25)'),
-    color: color('rgba(255, 255, 255, 0.85)'),
-    stroke: color('rgba(255, 255, 255, 0.35)'),
-    position: 'absolute',
-    top: 50,
-    left: 50,
-    border: 'none',
-    textAlign: 'left'
-}
+const StyledButton = styled.button`
+  position: absolute;
+  top: ${props => props.offset || '50px'};
+  left: calc(95vw - 12rem);
+  background: rgba(217, 217, 217, 0.25);
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.8);
+  display: inline-block;
+  margin: 0.5rem 1rem;
+  padding: 0.75rem 0;
+  transition: all 200ms ease-in-out;
+  width: 12rem;
+  text-align: left;
+  padding-left: 1rem;
+  font-family: "Overpass Mono";
 
-const Button = ({children, onClick}) => {
+  &:hover {
+    filter: brightness(0.85);
+  }
+
+  &:active {
+    filter: brightness(1);
+  }
+  ${props => props.val && css`
+    background: rgba(255, 255, 255, 1);
+    color: black;
+    mix-blend-mode: screen;
+  `}
+`
+
+const Button = ({children, onClick, val, offset}) => {
     return (
-        <button style={buttonStyle} onClick={onClick}> {children} </button>
+        <StyledButton val={val} onClick={onClick} offset={offset}> {children} </StyledButton>
     )
 }
 
