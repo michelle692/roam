@@ -6,8 +6,11 @@ import Button from './components/button.js';
 import Popup from './components/popup.js';
 
 function App() {
+<<<<<<< HEAD
   const [points, setPoints] = useState([])
   const mainGlobe = useRef();
+=======
+>>>>>>> 33b447bbbad6d828c14c83fcb2322bf577922127
   const [atmosphere, setAtmosphere] = useState(0.4);
   const [button1, setButton1] = useState([false, false, false]);
 
@@ -33,8 +36,19 @@ function App() {
   return (
     <div>
     <Globe
+<<<<<<< HEAD
       ref={mainGlobe}
       globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+=======
+      globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+
+      atmosphereAltitude={atmosphere}
+
+      atmosphereColor={'white'}
+
+      onGlobeClick = {(increaseAtmosphere)}
+
+>>>>>>> 33b447bbbad6d828c14c83fcb2322bf577922127
       backgroundColor ="#6D5BA1"
       atmosphereColor={'white'}
       atmosphereAltitude="0.2"
