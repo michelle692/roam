@@ -10,7 +10,7 @@ function App() {
   const mainGlobe = useRef();
 
   function clickLabel(lat, lng) {
-    mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 })
+    mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
   }
 
   const handleClick = (event) => {
