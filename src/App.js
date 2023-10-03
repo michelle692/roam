@@ -11,7 +11,7 @@ function App() {
   const [button1, setButton1] = useState([false, false, false]);
 
   function clickLabel(lat, lng) {
-    mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 })
+    mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
   }
 
   const handleClick1 = () => {
