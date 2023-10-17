@@ -17,16 +17,16 @@ export const citiesContext = createContext({
     city: "Atlanta",
     country: "United States",
     note: "Visited the Georgia Tech Campus",
-    latitude: 50,
-    longitude: -50
+    lat: 33.47,
+    lng: -84.20
   },
   {
     date: "9/04/22",
     city: "Madrid",
     country: "Spain",
     note: "Visited my family to celebrate a birthday!",
-    latitude: 50,
-    longitude: -50
+    lat: 40.42,
+    lng: -3.7
   }],
   setCitiesVisited: {}
 }
@@ -34,7 +34,6 @@ export const citiesContext = createContext({
 
 function App() {
   const {citiesVisited, setCitiesVisited} = useContext(citiesContext);
-  const [points, setPoints] = useState([]);
   const mainGlobe = useRef();
   const [button1, setButton1] = useState([false, false, false]);
   const [locInput, setLocInput] = useState("")
@@ -67,21 +66,14 @@ function App() {
     let coords = locInput.split(",")
     let lat = Number.parseFloat(coords[0])
     let lng = Number.parseFloat(coords[1])
-    setPoints([{
-      lng: lng,
-      lat: lat,
-      size: Math.random() / 3,
-      color: 'green',
-      name: lat.toString() + ", " + lng.toString()
-    }])
     mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
     citiesVisited.push({
       date: "xx/xx/xxxx",
       city: "City",
       country: "Country",
       note: "Note Goes Here",
-      latitude: lat,
-      longitude: lng
+      lat: lat,
+      lng: lng
     });
   }
 
@@ -97,22 +89,22 @@ function App() {
       backgroundColor ="rgba(0,0,0,0)"
       atmosphereColor={'white'}
       atmosphereAltitude="0.3"
-      labelsData={points}
+      labelsData={citiesVisited}
       labelLat={d => d.lat}
       labelLng={d => d.lng}
-      labelText={d => d.name}
+      labelText={d => d.city}
       labelSize={1.5}
       labelColor={() => 'yellow'}
       labelIncludeDot={true}
       labelDotRadius={1.25}
       onLabelClick={(label, event, { lat, lng, altitude }) => clickLabel(lat, lng)}
-      onGlobeClick={({ lat, lng}, event) => setPoints([{
-        lng: lng,
-        lat: lat,
-        size: Math.random() / 3,
-        color: 'green',
-        name: "Atlanta"
-      }])}
+      // onGlobeClick={({ lat, lng}, event) => setPoints([{
+      //   lng: lng,
+      //   lat: lat,
+      //   size: Math.random() / 3,
+      //   color: 'green',
+      //   name: "Atlanta"
+      // }])}
     />
     
     <Button val={button1[0]} onClick={handleClick1} offset={'25vh'}>ADD LOCATION</Button>
