@@ -16,7 +16,7 @@ const Wishlist = ({openVal, closeVal, openVal2, closeVal2}) => {
           <span style={textStyle}>❤ TRAVEL WISHLIST</span>
           <Button val={openVal2} onClick={closeVal} offset={'1vh'}>ADD LOCATION</Button>
           {citiesVisited.map((val) => (
-            <Item date={val.date} city={val.city} country={val.country} note={val.note}/>
+            <Item date={val.date} city={val.city} country={val.country} note={val.note} lat={val.latitude} long={val.longitude}/>
           ))}
         </div>
       </LargePopup>
