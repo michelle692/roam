@@ -42,10 +42,10 @@ const StyledButton = styled.button`
     }
 `
 
-const Item = ({date, city, country, note}) => {
+const Item = ({date, city, country, note, lat, long}) => {
     return (
         <div style={itemStyle}>
-            <p style={titleStyle}>{date} | {city}, {country}</p>
+            <p style={titleStyle}>{date} | {city}, {country}  |  {lat}, {long}</p>
             <p style={noteStyle}>{note}</p>
             <StyledButton>🖉</StyledButton>
         </div>
