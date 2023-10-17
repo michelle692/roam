@@ -4,6 +4,8 @@ import './App.css';
 
 import Button from './components/button.js';
 import Popup from './components/popup.js';
+
+import LocationPopup from './components/location_popup.js';
 import LargePopup from './components/largepopup.js';
 import Wishlist from './travel-wishlist.js';
 import History from './travel-history.js';
@@ -30,6 +32,7 @@ function App() {
   const [points, setPoints] = useState([]);
   const mainGlobe = useRef();
   const [button1, setButton1] = useState([false, false, false]);
+  const [locInput, setLocInput] = useState("")
 
   function clickLabel(lat, lng) {
     mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
@@ -51,6 +54,26 @@ function App() {
   }
   const textStyle = {
     marginLeft: "10rem",
+  }
+
+  const handleLocSubmit = () => {
+    setButton1([false, false, false]);
+    console.log(locInput)
+    let coords = locInput.split(",")
+    let lat = Number.parseFloat(coords[0])
+    let lng = Number.parseFloat(coords[1])
+    setPoints([{
+      lng: lng,
+      lat: lat,
+      size: Math.random() / 3,
+      color: 'green',
+      name: lat.toString() + ", " + lng.toString()
+    }])
+    mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
+  }
+
+  const changeLocVal = (event) => {
+    setLocInput(event.target.value)
   }
 
   return (
@@ -82,12 +105,15 @@ function App() {
     <Button val={button1[0]} onClick={handleClick1} offset={'25vh'}>ADD LOCATION</Button>
     <Button val={button1[1]} onClick={handleClick2} offset={'calc(25vh + 50px)'}>TRAVEL WISHLIST</Button>
     <Button val={button1[2]} onClick={handleClick3} offset={'calc(25vh + 100px)'}>TRAVEL HISTORY</Button>
+
     
     
     <Wishlist openVal={button1[1]} closeVal={handleClick1} openVal2={button1[0]} closeVal2={handleClick4} />
     <History openVal={button1[2]} closeVal={handleClick1} openVal2={button1[0]} closeVal2={handleClick4} />
+    <LocationPopup open={button1[0]} close={handleClick4} onChange={changeLocVal} submit={handleLocSubmit}>ADD LOCATION</LocationPopup>
 
-    <Popup open={button1[0]} close={handleClick1}>ADD LOCATION</Popup>
+   
+ 
     <p className="Title">ROAM</p>
     </div>
     
