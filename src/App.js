@@ -36,7 +36,7 @@ function App() {
       globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
       backgroundColor ="rgba(0,0,0,0)"
       atmosphereColor={'white'}
-      atmosphereAltitude="0.2"
+      atmosphereAltitude="0.3"
       labelsData={points}
       labelLat={d => d.lat}
       labelLng={d => d.lng}
