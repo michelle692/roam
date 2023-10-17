@@ -4,18 +4,39 @@ import './App.css';
 
 import Button from './components/button.js';
 import Popup from './components/popup.js';
+import LargePopup from './components/largepopup.js';
+import Wishlist from './travel-wishlist.js';
+import History from './travel-history.js';
+import { createContext } from "react";
+
+export const citiesContext = createContext({
+  citiesVisited:     [{
+    date: "10/17/23",
+    city: "Atlanta",
+    country: "United States",
+    note: "Visited the Georgia Tech Campus"
+  },
+  {
+    date: "9/04/22",
+    city: "Madrid",
+    country: "Spain",
+    note: "Visited my family to celebrate a birthday!"
+  }],
+  setCitiesVisited: {}
+}
+)
 
 function App() {
-  const [points, setPoints] = useState([])
+  const [points, setPoints] = useState([]);
   const mainGlobe = useRef();
   const [button1, setButton1] = useState([false, false, false]);
 
   function clickLabel(lat, lng) {
     mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
-  }
+  } 
 
   const handleClick1 = () => {
-    setButton1([!button1[0], false, false]);
+    setButton1([!button1[0], button1[1], button1[2]]);
   }
   const handleClick2 = () => {
     setButton1([false, !button1[1], false]);
@@ -27,6 +48,9 @@ function App() {
 
   const handleClick4 = () => {
     setButton1([false, false, false]);
+  }
+  const textStyle = {
+    marginLeft: "10rem",
   }
 
   return (
@@ -58,10 +82,12 @@ function App() {
     <Button val={button1[0]} onClick={handleClick1} offset={'25vh'}>ADD LOCATION</Button>
     <Button val={button1[1]} onClick={handleClick2} offset={'calc(25vh + 50px)'}>TRAVEL WISHLIST</Button>
     <Button val={button1[2]} onClick={handleClick3} offset={'calc(25vh + 100px)'}>TRAVEL HISTORY</Button>
-    <Popup open={button1[0]} close={handleClick4}>ADD LOCATION</Popup>
-    <Popup open={button1[1]} close={handleClick4}>TRAVEL WISHLIST</Popup>
-    <Popup open={button1[2]} close={handleClick4}>TRAVEL HISTORY</Popup>
     
+    
+    <Wishlist openVal={button1[1]} closeVal={handleClick1} openVal2={button1[0]} closeVal2={handleClick4} />
+    <History openVal={button1[2]} closeVal={handleClick1} openVal2={button1[0]} closeVal2={handleClick4} />
+
+    <Popup open={button1[0]} close={handleClick1}>ADD LOCATION</Popup>
     <p className="Title">ROAM</p>
     </div>
     
