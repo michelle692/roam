@@ -30,13 +30,13 @@ function App() {
   }
 
   return (
-    <div>
+    <div className='background'>
     <Globe
       ref={mainGlobe}
       globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
-      backgroundColor ="#6D5BA1"
+      backgroundColor ="rgba(0,0,0,0)"
       atmosphereColor={'white'}
-      atmosphereAltitude="0.2"
+      atmosphereAltitude="0.3"
       labelsData={points}
       labelLat={d => d.lat}
       labelLng={d => d.lng}
