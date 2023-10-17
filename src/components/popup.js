@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
+import styled, {css} from 'styled-components';
 
 const popupStyle = {
     overlay: {
@@ -23,22 +24,26 @@ const popupStyle = {
         fontWeight: 'bold'
     }
 }
-const exitButton = {
-    position: 'absolute',
-    right: '0%',
-    top: '0%',
-    borderRadius: '100%',
-    border: 'none',
-    width: '1.5rem',
-    height: '1.5rem',
-    background: 'rgba(255, 255, 255, 0.5)'
-}
+const ExitButton = styled.button`
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    border-radius: 100%;
+    border: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: rgba(255, 255, 255, 0.5);
+    transition: all 200ms ease-in-out;
+    &:hover {
+        background: rgba(255, 255, 255, 0.7);
+    }
+`
 
 const Popup = ({children, open, close}) => {
     return (
         <Modal isOpen={open}  backdrop="static" style={popupStyle}>
             {children}
-            <button style={exitButton} onClick={close}>X</button>
+            <ExitButton onClick={close}>X</ExitButton>
         </Modal>
     )
 }
