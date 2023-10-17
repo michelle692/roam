@@ -10,7 +10,7 @@ import LocationPopup from './components/location_popup.js';
 import LargePopup from './components/largepopup.js';
 import Wishlist from './travel-wishlist.js';
 import History from './travel-history.js';
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 export const citiesContext = createContext({
@@ -18,19 +18,24 @@ export const citiesContext = createContext({
     date: "10/17/23",
     city: "Atlanta",
     country: "United States",
-    note: "Visited the Georgia Tech Campus"
+    note: "Visited the Georgia Tech Campus",
+    latitude: 50,
+    longitude: -50
   },
   {
     date: "9/04/22",
     city: "Madrid",
     country: "Spain",
-    note: "Visited my family to celebrate a birthday!"
+    note: "Visited my family to celebrate a birthday!",
+    latitude: 50,
+    longitude: -50
   }],
   setCitiesVisited: {}
 }
 )
 
 function App() {
+  const {citiesVisited, setCitiesVisited} = useContext(citiesContext);
   const [points, setPoints] = useState([]);
   const mainGlobe = useRef();
   const [button1, setButton1] = useState([false, false, false]);
@@ -72,6 +77,14 @@ function App() {
       name: lat.toString() + ", " + lng.toString()
     }])
     mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
+    citiesVisited.push({
+      date: "xx/xx/xxxx",
+      city: "City",
+      country: "Country",
+      note: "Note Goes Here",
+      latitude: lat,
+      longitude: lng
+    });
   }
 
   const changeLocVal = (event) => {
