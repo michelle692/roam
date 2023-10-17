@@ -4,11 +4,13 @@ import './App.css';
 
 import Button from './components/button.js';
 import Popup from './components/popup.js';
+import LocationPopup from './components/location_popup.js';
 
 function App() {
   const [points, setPoints] = useState([])
   const mainGlobe = useRef();
   const [button1, setButton1] = useState([false, false, false]);
+  const [locInput, setLocInput] = useState("")
 
   function clickLabel(lat, lng) {
     mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
@@ -27,6 +29,26 @@ function App() {
 
   const handleClick4 = () => {
     setButton1([false, false, false]);
+  }
+
+  const handleLocSubmit = () => {
+    setButton1([false, false, false]);
+    console.log(locInput)
+    let coords = locInput.split(",")
+    let lat = Number.parseFloat(coords[0])
+    let lng = Number.parseFloat(coords[1])
+    setPoints([{
+      lng: lng,
+      lat: lat,
+      size: Math.random() / 3,
+      color: 'green',
+      name: lat.toString() + ", " + lng.toString()
+    }])
+    mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
+  }
+
+  const changeLocVal = (event) => {
+    setLocInput(event.target.value)
   }
 
   return (
@@ -58,7 +80,7 @@ function App() {
     <Button val={button1[0]} onClick={handleClick1} offset={'25vh'}>ADD LOCATION</Button>
     <Button val={button1[1]} onClick={handleClick2} offset={'calc(25vh + 50px)'}>TRAVEL WISHLIST</Button>
     <Button val={button1[2]} onClick={handleClick3} offset={'calc(25vh + 100px)'}>TRAVEL HISTORY</Button>
-    <Popup open={button1[0]} close={handleClick4}>ADD LOCATION</Popup>
+    <LocationPopup open={button1[0]} close={handleClick4} onChange={changeLocVal} submit={handleLocSubmit}>ADD LOCATION</LocationPopup>
     <Popup open={button1[1]} close={handleClick4}>TRAVEL WISHLIST</Popup>
     <Popup open={button1[2]} close={handleClick4}>TRAVEL HISTORY</Popup>
     
