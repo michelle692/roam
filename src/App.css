@@ -48,3 +48,9 @@
   color: white;
   font-family: "Overpass Mono";
 }
+
+.background {
+  background: linear-gradient(90deg, #434C95, #9578B3);
+  height: 100vh;
+  width: 100vw;
+}
