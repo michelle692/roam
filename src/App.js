@@ -1,24 +1,24 @@
 import React from 'react';
-import './App.css';
+import './css/App.css';
 
-import Home from './Home';
-import Information from './Information'
+import Home from './pages/Home';
+import Information from './pages/Information'
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
 
-  return (
-    <Router>
-      <div className='background'>
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route path="/information" element={<Information />} />
-        </Routes>
-        <p className="Title">ROAM</p>
-      </div>
-    </Router>  
-  );
+    return (
+        <Router>
+            <div className='background'>
+                <Routes>
+                    <Route exact path="/" element={<Home />} />
+                    <Route path="/information" element={<Information />} />
+                </Routes>
+                <p className="Title">ROAM</p>
+            </div>
+        </Router>
+    );
 }
 
 export default App;
