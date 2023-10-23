@@ -68,33 +68,37 @@ function Home() {
         setButton1([false, false, false]);
         setOutputArr(false);
     }
-
+    const valid = (val) => {
+        return val !== undefined && val !== NaN && val !== "";
+    }
     const handleLocSubmit = () => {
-        setButton1([false, false, false]);
+        setButton1([false, button1[1], button1[2]]);
         console.log(locInput)
         let coords = locInput.split(",")
-        let lat = Number.parseFloat(coords[0])
-        let lng = Number.parseFloat(coords[1])
-        setPoints([{
-            lng: lng,
-            lat: lat,
-            size: Math.random() / 3,
-            color: 'green',
-            name: lat.toString() + ", " + lng.toString()
-        }])
-        mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
-        const newCity = {
-            date: "xx/xx/xxxx",
-            city: "City",
-            country: "Country",
-            note: "Note Goes Here",
-            lat: lat,
-            lng: lng
-        }
-        if (outputArr) {
-            citiesVisited.push(newCity);
-        } else {
-            wishlist.push(newCity);
+            if (valid(coords[0]) && valid(coords[1])) {
+            let lat = Number.parseFloat(coords[0])
+            let lng = Number.parseFloat(coords[1])
+            setPoints([{
+                lng: lng,
+                lat: lat,
+                size: Math.random() / 3,
+                color: 'green',
+                name: lat.toString() + ", " + lng.toString()
+            }])
+            mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
+            const newCity = {
+                date: "xx/xx/xxxx",
+                city: "City",
+                country: "Country",
+                note: "Note Goes Here",
+                lat: lat,
+                lng: lng
+            }
+            if (outputArr) {
+                citiesVisited.push(newCity);
+            } else {
+                wishlist.push(newCity);
+            }
         }
     }
 
@@ -127,7 +131,7 @@ function Home() {
 
             <Wishlist openVal={button1[1]} closeVal={handleClick1} openVal2={button1[0]} closeVal2={handleClick4} />
             <History openVal={button1[2]} closeVal={handleClick1} openVal2={button1[0]} closeVal2={handleClick4} />
-            <LocationPopup open={button1[0]} close={handleClick4} onChange={changeLocVal} submit={handleLocSubmit}>ADD LOCATION</LocationPopup>
+            <LocationPopup open={button1[0]} close={handleClick4} onChange={changeLocVal} submit={handleLocSubmit} type={outputArr ? "PIN CITY" : "WISHLIST"}>ADD LOCATION</LocationPopup>
         </div>
     )
 }
