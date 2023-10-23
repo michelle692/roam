@@ -16,28 +16,29 @@ export const citiesContext = createContext({
         city: "Atlanta",
         country: "United States",
         note: "Visited the Georgia Tech Campus",
-        latitude: 50,
-        longitude: -50
+        lat: 33.47,
+        lng: -84.20
     },
     {
         date: "9/04/22",
         city: "Madrid",
         country: "Spain",
         note: "Visited my family to celebrate a birthday!",
-        latitude: 50,
-        longitude: -50
+        lat: 40.42,
+        lng: -3.7
     }],
-    setCitiesVisited: {}
+    wishlist: []
 }
 )
 
 function Home() {
     const { useEffect, useRef } = React;
-    const { citiesVisited, setCitiesVisited } = useContext(citiesContext);
+    const { citiesVisited, wishlist } = useContext(citiesContext);
     const [points, setPoints] = useState([]);
     const mainGlobe = useRef();
     const [button1, setButton1] = useState([false, false, false]);
-    const [locInput, setLocInput] = useState("")
+    const [locInput, setLocInput] = useState("");
+    const [outputArr, setOutputArr] = useState(false);
 
     useEffect(() => {
         const globe = mainGlobe.current;
@@ -55,17 +56,17 @@ function Home() {
     }
     const handleClick2 = () => {
         setButton1([false, !button1[1], false]);
+        setOutputArr(false);
     }
 
     const handleClick3 = () => {
         setButton1([false, false, !button1[2]]);
+        setOutputArr(true);
     }
 
     const handleClick4 = () => {
         setButton1([false, false, false]);
-    }
-    const textStyle = {
-        marginLeft: "10rem",
+        setOutputArr(false);
     }
 
     const handleLocSubmit = () => {
@@ -74,30 +75,31 @@ function Home() {
         let coords = locInput.split(",")
         let lat = Number.parseFloat(coords[0])
         let lng = Number.parseFloat(coords[1])
-        points.push({
+        setPoints([{
             lng: lng,
             lat: lat,
             size: Math.random() / 3,
             color: 'green',
             name: lat.toString() + ", " + lng.toString()
-        })
-        setPoints(points)
+        }])
         mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
-        citiesVisited.push({
+        const newCity = {
             date: "xx/xx/xxxx",
             city: "City",
             country: "Country",
             note: "Note Goes Here",
-            latitude: lat,
-            longitude: lng
-        });
+            lat: lat,
+            lng: lng
+        }
+        if (outputArr) {
+            citiesVisited.push(newCity);
+        } else {
+            wishlist.push(newCity);
+        }
     }
 
     const changeLocVal = (event) => {
         setLocInput(event.target.value)
-        // Try uncommenting the following line and open up the console 
-        // to see what is being returned when you type something in the text field.
-        // Search(event.target.value).then((result) => { console.log(result); })
     }
 
     return (
@@ -108,10 +110,10 @@ function Home() {
                 backgroundColor="rgba(0,0,0,0)"
                 atmosphereColor={'white'}
                 atmosphereAltitude="0.3"
-                labelsData={points}
+                labelsData={citiesVisited}
                 labelLat={d => d.lat}
                 labelLng={d => d.lng}
-                labelText={d => d.name}
+                labelText={d => d.city}
                 labelSize={0.85}
                 labelColor={() => 'yellow'}
                 labelIncludeDot={true}
