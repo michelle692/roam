@@ -19,12 +19,9 @@ const StyledButton = styled.button`
     font-family: "Overpass Mono";
 
     &:hover {
-        filter: brightness(0.85);
+        background: rgba(255, 255, 255, 0.35);
     }
 
-    &:active {
-        filter: brightness(1);
-    }
     ${props => props.val && css`
         background: rgba(255, 255, 255, 1);
         color: black;
