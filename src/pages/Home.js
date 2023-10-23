@@ -9,6 +9,7 @@ import LocationPopup from '../components/LocationPopup.js';
 import Wishlist from '../components/TravelWishlist.js';
 import History from '../components/TravelHistory.js';
 import Info from '../components/Info.js';
+import Stats from '../components/Stats.js';
 
 import { createContext, useContext } from "react";
 
@@ -29,13 +30,16 @@ export const citiesContext = createContext({
         lat: 40.42,
         lng: -3.7
     }],
-    wishlist: []
+    wishlist: [],
+    cityCount: 91,
+    stateCount: 14,
+    countryCount: 21,
+    continentCount: 2
 }
 )
 
 function Home() {
-    const { useEffect, useRef } = React;
-    const { citiesVisited, wishlist } = useContext(citiesContext);
+    const { citiesVisited, wishlist, cityCount, stateCount, countryCount, continentCount } = useContext(citiesContext);
     const [points, setPoints] = useState([]);
     const mainGlobe = useRef();
     const [button1, setButton1] = useState([false, false, false]);
@@ -46,6 +50,11 @@ function Home() {
         lat: 0,
         lng: 0
     });
+    const [statsOpen, setStatsOpen] = useState(true);
+
+    const openStats = () => {
+        setStatsOpen(!statsOpen);
+    }
 
     useEffect(() => {
         const globe = mainGlobe.current;
@@ -154,6 +163,7 @@ function Home() {
                     open={infoBox} close={handleClick5}/> : <div/>}
                     </div>
             )) : <div/>}
+            <Stats cityCount={cityCount} stateCount={stateCount} countryCount={countryCount} continentCount={continentCount} visible={statsOpen} open={openStats}/>
         </div>
     )
 }

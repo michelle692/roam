@@ -5,7 +5,7 @@ import "@fontsource/overpass-mono";
 const StyledButton = styled.button`
     position: absolute;
     top: ${props => props.offset || '50px'};
-    left: calc(95% - 12rem);
+    right: 40px;
     background: rgba(217, 217, 217, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.35);
     color: rgba(255, 255, 255, 0.8);
