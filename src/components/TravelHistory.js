@@ -39,9 +39,11 @@ const textStyle = {
   text-align: center;
   font-family: "Overpass Mono";
 
+  ${props => !props.val && css `
   &:hover {
       background: rgba(255, 255, 255, 0.35);
   }
+`}
 
   ${props => props.val && css`
       background: rgba(255, 255, 255, 1);

@@ -18,9 +18,11 @@ const StyledButton = styled.button`
     padding-left: 1rem;
     font-family: "Overpass Mono";
 
-    &:hover {
-        background: rgba(255, 255, 255, 0.35);
-    }
+    ${props => !props.val && css `
+        &:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+    `}
 
     ${props => props.val && css`
         background: rgba(255, 255, 255, 1);
