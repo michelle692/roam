@@ -92,6 +92,7 @@ function Home() {
   
     return (
         <div>
+            <p className="Title">ROAM</p>
             <Globe
                 ref={mainGlobe}
                 globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
@@ -116,9 +117,11 @@ function Home() {
                 }])}
                 />
                 
-                <Button val={button1[0]} onClick={handleClick1} offset={'25vh'}>ADD LOCATION</Button>
-                <Button val={button1[1]} onClick={handleClick2} offset={'calc(25vh + 50px)'}>TRAVEL WISHLIST</Button>
-                <Button val={button1[2]} onClick={handleClick3} offset={'calc(25vh + 100px)'}>TRAVEL HISTORY</Button>
+                <div style={{ margin: '0.5rem 1rem' }}>
+                  <Button val={button1[0]} onClick={handleClick1} offset={'25vh'}>ADD LOCATION</Button>
+                  <Button val={button1[1]} onClick={handleClick2} offset={'calc(25vh + 50px)'}>TRAVEL WISHLIST</Button>
+                  <Button val={button1[2]} onClick={handleClick3} offset={'calc(25vh + 100px)'}>TRAVEL HISTORY</Button>
+                </div>
                 
                 <Wishlist openVal={button1[1]} closeVal={handleClick1} openVal2={button1[0]} closeVal2={handleClick4} />
                 <History openVal={button1[2]} closeVal={handleClick1} openVal2={button1[0]} closeVal2={handleClick4} />

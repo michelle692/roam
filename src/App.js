@@ -15,7 +15,7 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/information" element={<Information />} />
         </Routes>
-        <p className="Title">ROAM</p>
+        
       </div>
     </Router>  
   );
