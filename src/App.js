@@ -9,17 +9,16 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
 
-    return (
-        <Router>
-            <div className='background'>
-                <Routes>
-                    <Route exact path="/" element={<Home />} />
-                    <Route path="/information" element={<Information />} />
-                </Routes>
-                <p className="Title">ROAM</p>
-            </div>
-        </Router>
-    );
+  return (
+    <Router>
+      <div className='background'>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/information" element={<Information />} />
+        </Routes>
+      </div>
+    </Router>  
+  );
 }
 
 export default App;

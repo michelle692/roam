@@ -3,14 +3,14 @@ import styled, { css } from 'styled-components';
 import "@fontsource/overpass-mono";
 
 const StyledButton = styled.button`
-    position: absolute;
-    top: ${props => props.offset || '50px'};
-    right: 40px;
+    position: ${props => props.start ? "relative" : "absolute"};
+    top: ${props => !props.start && (props.offset || '50px')};
+    right: ${props => !props.start ? "40px": ""};
     background: rgba(217, 217, 217, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.35);
     color: rgba(255, 255, 255, 0.8);
     display: inline-block;
-    margin: 0.5rem 1rem;
+    margin: ${props => !props.start ? "0.5rem 1rem" : ""};
     padding: 0.75rem 0;
     transition: all 200ms ease-in-out;
     width: 12rem;
@@ -31,9 +31,9 @@ const StyledButton = styled.button`
     `}
 `
 
-const Button = ({ children, onClick, val, offset }) => {
+const Button = ({ children, onClick, val, offset, start }) => {
     return (
-        <StyledButton val={val} onClick={onClick} offset={offset}> {children} </StyledButton>
+        <StyledButton val={val} onClick={onClick} offset={offset} start={start}> {children} </StyledButton>
     )
 }
 

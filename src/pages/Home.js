@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import Globe from 'react-globe.gl';
 import './../css/App.css';
 import { Search } from './../utils/api';
 
-import Button from '../components/Button.js';
+import Button from '../components/Button';
 import LocationPopup from '../components/LocationPopup.js';
 import Wishlist from '../components/TravelWishlist.js';
 import History from '../components/TravelHistory.js';
@@ -39,6 +40,7 @@ export const citiesContext = createContext({
 )
 
 function Home() {
+    const navigate = useNavigate()
     const { citiesVisited, wishlist, cityCount, stateCount, countryCount, continentCount } = useContext(citiesContext);
     const [points, setPoints] = useState([]);
     const mainGlobe = useRef();
@@ -133,6 +135,7 @@ function Home() {
 
     return (
         <div>
+            <Link className="Title" to="/information">ROAM</Link>
             <Globe
                 ref={mainGlobe}
                 globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
