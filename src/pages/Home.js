@@ -5,7 +5,6 @@ import Globe from 'react-globe.gl';
 import './../css/App.css';
 import { GetInfo, Search } from './../utils/api';
 
-
 import Button from '../components/Button';
 import LocationPopup from '../components/LocationPopup.js';
 import Wishlist from '../components/TravelWishlist.js';
@@ -150,7 +149,7 @@ function Home() {
             latitude: lat,
             longitude: lng
         });
-      
+    }
     const changeLocVal = (event) => {
         setLocInput(event.target.value)
     }
@@ -192,5 +191,4 @@ function Home() {
         </div>
     )
 }
-
 export default Home;
