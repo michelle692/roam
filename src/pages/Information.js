@@ -1,13 +1,13 @@
 import React from "react";
-import "./App.css"
+import "../css/App.css"
 import { BsGlobe2 } from 'react-icons/bs'
 import { IoIosAddCircleOutline } from 'react-icons/io'
 import { PiStarDuotone } from 'react-icons/pi'
 import { FiArrowRightCircle } from 'react-icons/fi'
 import { CiLocationArrow1 } from 'react-icons/ci'
 
-import Earth from './static/earth.png'
-import Button from "./components/button";
+import Earth from '../static/earth.png'
+import Button from "../components/Button";
 import { useNavigate } from "react-router";
 
 function Information() {

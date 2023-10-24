@@ -1,8 +1,9 @@
 import React from 'react';
-import './App.css';
+import './css/App.css';
+import './css/index.css';
 
-import Home from './Home';
-import Information from './Information'
+import Home from './pages/Home';
+import Information from './pages/Information'
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -15,7 +16,6 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/information" element={<Information />} />
         </Routes>
-        
       </div>
     </Router>  
   );

@@ -5,49 +5,47 @@ import styled, {css} from 'styled-components';
 const popupStyle = {
     overlay: {
         margin: 'auto',
-        background: 'rgba(80, 80, 150, 0.7)',
-        border: 'none',
+        background: 'rgba(255, 255, 255, 0.5)',
+        border: '3px solid rgba(249, 249, 249, 0.78)',
+        textAlign: 'center',
         position: 'absolute',
         top: '50%',
         left: '50%',
-        width: '100%',
-        height: '80%',
-        transform: 'translate(-50%, -30%)',
-        backdropFilter: 'blur(8px)',
+        width: '40%',
+        height: '50%',
+        transform: 'translate(-60%, -50%)',
+        backdropFilter: 'blur(6px)',
     },
     content: {
         background: 'rgba(0, 0, 0, 0)',
         border: 'none',
         fontFamily: 'Overpass Mono',
-        fontSize: '40px',
-        fontWeight: 'bold',
-        color: 'white'
+        fontSize: '20px',
+        fontWeight: 'bold'
     }
 }
 const ExitButton = styled.button`
     position: absolute;
-    left: 0px;
-    top: 10px;
-    border-radius: 5px;
+    right: 0px;
+    top: 0px;
+    border-radius: 100%;
     border: none;
-    width: 5rem;
-    height: 4rem;
-    background: rgba(255, 255, 255, 0);
-    color: white;
-    font-size: 50px;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: rgba(255, 255, 255, 0.5);
     transition: all 200ms ease-in-out;
     &:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.7);
     }
 `
 
-const LargePopup = ({children, open, close}) => {
+const Popup = ({children, open, close}) => {
     return (
         <Modal isOpen={open}  backdrop="static" style={popupStyle}>
             {children}
-            <ExitButton onClick={close}>&lt;</ExitButton>
+            <ExitButton onClick={close}>X</ExitButton>
         </Modal>
     )
 }
 
-export default LargePopup;
+export default Popup;
