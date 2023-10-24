@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import Globe from 'react-globe.gl';
 import './../css/App.css';
-import { Search } from './../utils/api';
+import { GetInfo, Search } from './../utils/api';
 
-import Button from '../components/Button.js';
+import Button from '../components/button.js';
 import LocationPopup from '../components/LocationPopup.js';
 import Wishlist from '../components/TravelWishlist.js';
 import History from '../components/TravelHistory.js';
@@ -68,24 +68,51 @@ function Home() {
         marginLeft: "10rem",
     }
 
-    const handleLocSubmit = () => {
+    async function getData(type, name) {
+        if (type == "search") {
+            try {
+                let searchData = await Search(name)
+                return searchData
+            } catch (error) {
+                return -1
+            }
+        }
+        if (type == "get") {
+            try {
+                let searchData = await GetInfo(name)
+                return searchData
+            } catch (error) {
+                return -1
+            }
+        }
+    }
+
+    const handleLocSubmit = async () => {
         setButton1([false, false, false]);
         console.log(locInput)
-        let coords = locInput.split(",")
-        let lat = Number.parseFloat(coords[0])
-        let lng = Number.parseFloat(coords[1])
+
+        let searchData = await getData("search", locInput)
+        let place_json = await getData("get", searchData["predictions"][0]["place_id"])
+        let lat = place_json["results"][0]["geometry"]["location"]["lat"]
+        let lng = place_json["results"][0]["geometry"]["location"]["lng"]
+        let city = place_json["results"][0]["address_components"][0]["short_name"]
+        
+        // let coords = locInput.split(",")
+        // let lat = Number.parseFloat(coords[0])
+        // let lng = Number.parseFloat(coords[1])
+        // let city = lat.toString() + " " + lng.toString()
         points.push({
             lng: lng,
             lat: lat,
             size: Math.random() / 3,
             color: 'green',
-            name: lat.toString() + ", " + lng.toString()
+            name: city
         })
         setPoints(points)
         mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
         citiesVisited.push({
             date: "xx/xx/xxxx",
-            city: "City",
+            city: city,
             country: "Country",
             note: "Note Goes Here",
             latitude: lat,

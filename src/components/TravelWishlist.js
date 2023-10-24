@@ -1,8 +1,8 @@
-import LargePopup from './LargePopup.js';
+import LargePopup from './largepopup.js';
 import { citiesContext } from "../pages/Home.js";
 import { React, useContext } from "react";
-import Button from './Button.js';
-import Item from './Item.js';
+import Button from './button.js';
+import Item from './item.js';
 
 const textStyle = {
     marginLeft: "10rem",
