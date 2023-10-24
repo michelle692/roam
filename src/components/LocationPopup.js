@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import styled, { css } from 'styled-components';
 import "@fontsource/overpass-mono";
+import { BsGlobe2 } from 'react-icons/bs'
 
 const popupStyle = {
     overlay: {
@@ -78,8 +79,11 @@ const LocationPopup = ({children, open, close, onChange, submit, type}) => {
     return (
         <Modal isOpen={open}  backdrop="static" style={popupStyle}>
             <div style={divStyle}>
-            {children}
-            <p style={descriptionStyle}>WE GIVE YOU THE ABILITY TO RECORD YOUR TRAVEL AT THE TIP OF YOUR FINGERS</p>
+            <div style={{display:"flex", flexDirection:"row"}}>
+            <BsGlobe2/>
+            <span>&nbsp;{children}</span>
+            </div>
+            <p style={descriptionStyle}>LOG YOUR TRAVEL AND ROAM THE WORLD WITH US</p>
             <ExitButton onClick={close}>X</ExitButton>
             <input style={locationInput} onChange={onChange} placeholder="SEARCH FOR CITY"/>
             <style>

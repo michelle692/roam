@@ -18,34 +18,37 @@ function Information() {
             <img src={Earth} className="earth"/>
             <div className="info">
                 <h1> ROAM </h1>
-                <p> We give you the ability to record your travel at the tip of your fingers. </p>
+                <p> Log your journeys and plan your adventures from the convenience of a web browser. </p>
                 <div className="info-columns"> 
                     <div className="info-column">
                         <BsGlobe2 fontSize={'25px'}/>
                         <h3> Interact with a 3D Globe </h3>
 
-                        <p> I'm a paragraph. Click here to add your own text and edit me. It’s easy. 
-                            Just click “Edit Text” or double click me to add your own content and make changes to the font.</p>
+                        <p> Our landing page consists of a globe that the user can interact with by rotating it, zooming in,
+                            and clicking on pins of locations they have traveled to.
+                        </p>
                     </div>
 
                     <div className="info-column">
                         <IoIosAddCircleOutline fontSize={'25px'}/>
                         <h3> Add every new trip </h3>
 
-                        <p> I'm a paragraph. Click here to add your own text and edit me. It’s easy. 
-                            Just click “Edit Text” or double click me to add your own content and make changes to the font.</p>
+                        <p> After completing a trip, mark your memories on the globe by clicking "Add Location" and then
+                            searching for the city you visited. Add notes to remember your journey!
+                        </p>
                     </div>
 
                     <div className="info-column">
                         <PiStarDuotone fontSize={'25px'}/>
                         <h3> Create a wishlist </h3>
 
-                        <p> I'm a paragraph. Click here to add your own text and edit me. It’s easy. 
-                            Just click “Edit Text” or double click me to add your own content and make changes to the font.</p>
+                        <p> Plan your future adventures using our wishlist feature. Add notes of landmarks you plan to visit
+                            or sights you plan to see when you go on the trip of your dreams.
+                        </p>
                     </div>
                 </div>
 
-                <Button start={true} onClick={() => navigate('/')}> Get Started <CiLocationArrow1 fontSize={'20px'}/> </Button>
+                <Button start={true} onClick={() => navigate('/')}> GET STARTED <CiLocationArrow1 fontSize={'20px'}/> </Button>
             </div>
         </div>
     )

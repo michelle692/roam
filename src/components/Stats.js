@@ -1,6 +1,7 @@
 import React from "react";
 import "@fontsource/overpass-mono";
 import styled from 'styled-components';
+import { AiFillStar } from "react-icons/ai";
 
 const StatsStyle = {
     display: "flex",
@@ -50,13 +51,13 @@ const Stats = ({cityCount, stateCount, countryCount, continentCount, visible, op
         <div>
         {visible ? 
         <div style={StatsStyle}>
-            <ExitButton onClick={open}>★</ExitButton>
+            <ExitButton onClick={open} style={{display:"flex", alignItems:"center"}}><AiFillStar/></ExitButton>
             <span>CITIES VISITED: {cityCount}</span>
             <span>STATES VISITED: {stateCount}</span>
             <span>COUNTRIES VISITED: {countryCount}</span>
             <span>CONTINENTS VISITED: {continentCount}</span>
         </div>
-        : <ExitButton2 onClick={open}>★</ExitButton2>}
+        : <ExitButton2 onClick={open} style={{display:"flex", alignItems:"center"}}><AiFillStar/></ExitButton2>}
         </div>
     )
 }

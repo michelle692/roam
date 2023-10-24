@@ -5,6 +5,7 @@ import Button from './Button.js';
 import Item from './Item.js';
 import styled, { css } from 'styled-components';
 import "@fontsource/overpass-mono";
+import {AiFillHeart} from "react-icons/ai";
 
 const boxStyle = {
   display: "flex",
@@ -15,9 +16,7 @@ const headerStyle = {
   flexDirection: "row",
   justifyContent: "space-between"
 }
-const textStyle = {
-    marginLeft: "10rem",
-}
+
 const description = {
   fontSize: "1rem",
   fontWeight: "normal",
@@ -55,7 +54,10 @@ const Wishlist = ({openVal, closeVal, openVal2, closeVal2}) => {
         <LargePopup open={openVal} close={closeVal2}>
         <div style={boxStyle}>
           <div style={headerStyle}>
-          <span style={textStyle}>❤ TRAVEL WISHLIST</span>
+            <div style={{display:"flex", flexDirection:"row", marginLeft:"10rem"}}>
+            <AiFillHeart/> 
+          <span>&nbsp;TRAVEL WISHLIST</span>
+          </div>
           <StyledButton val={openVal2} onClick={closeVal} offset={'1vh'}>ADD LOCATION</StyledButton>
           </div>
           {wishlist.length > 0 ? wishlist.map((val) => (

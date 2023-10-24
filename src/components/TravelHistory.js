@@ -5,6 +5,7 @@ import Button from './Button.js';
 import Item from './Item.js';
 import styled, { css } from 'styled-components';
 import "@fontsource/overpass-mono";
+import { AiFillStar } from "react-icons/ai";
 
 const boxStyle = {
   display: "flex",
@@ -14,9 +15,6 @@ const headerStyle = {
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-between"
-}
-const textStyle = {
-  marginLeft: "10rem",
 }
 const description = {
   fontSize: "1rem",
@@ -54,7 +52,10 @@ const History = ({ openVal, closeVal, openVal2, closeVal2 }) => {
     <LargePopup open={openVal} close={closeVal2}>
       <div style={boxStyle}>
         <div style={headerStyle}>
-          <span style={textStyle}>★ TRAVEL HISTORY</span>
+          <div style={{ display: "flex", flexDirection: "row", marginLeft: "10rem" }}>
+            <AiFillStar />
+            <span>&nbsp;TRAVEL HISTORY</span>
+          </div>
           <StyledButton val={openVal2} onClick={closeVal} offset={'1vh'}>ADD LOCATION</StyledButton>
         </div>
         {citiesVisited.length > 0 ? citiesVisited.map((val) => (
