@@ -1,4 +1,4 @@
-import LargePopup from './LargePopup.js';
+import LargePopup from './Largepopup.js';
 import { citiesContext } from "../pages/Home.js";
 import { React, useContext } from "react";
 import Button from './Button.js';

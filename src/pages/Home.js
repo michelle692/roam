@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import Globe from 'react-globe.gl';
 import './../css/App.css';
-import { Search } from './../utils/api';
+import { GetInfo, Search } from './../utils/api';
+
 
 import Button from '../components/Button';
 import LocationPopup from '../components/LocationPopup.js';
@@ -94,41 +95,62 @@ function Home() {
         setInfoBox(false);
         mainGlobe.current.pointOfView({ lat: infoCoords.lat, lng: infoCoords.lng, altitude: 2 }, 1600);
     }
-
+    
     const valid = (val) => {
         return val !== undefined && !isNaN(val) && val !== "";
     }
-    const handleLocSubmit = () => {
-        setButton1([false, button1[1], button1[2]]);
-        console.log(locInput)
-        let coords = locInput.split(",")
-            if (valid(coords[0]) && valid(coords[1])) {
-            let lat = Number.parseFloat(coords[0])
-            let lng = Number.parseFloat(coords[1])
-            setPoints([{
-                lng: lng,
-                lat: lat,
-                size: Math.random() / 3,
-                color: 'green',
-                name: lat.toString() + ", " + lng.toString()
-            }])
-            mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
-            const newCity = {
-                date: "xx/xx/xxxx",
-                city: "City",
-                country: "Country",
-                note: "Note Goes Here",
-                lat: lat,
-                lng: lng
+    
+    async function getData(type, name) {
+        if (type == "search") {
+            try {
+                let searchData = await Search(name)
+                return searchData
+            } catch (error) {
+                return -1
             }
-            if (outputArr) {
-                citiesVisited.push(newCity);
-            } else {
-                wishlist.push(newCity);
+        }
+        if (type == "get") {
+            try {
+                let searchData = await GetInfo(name)
+                return searchData
+            } catch (error) {
+                return -1
             }
         }
     }
 
+    const handleLocSubmit = async () => {
+        setButton1([false, false, false]);
+        console.log(locInput)
+
+        let searchData = await getData("search", locInput)
+        let place_json = await getData("get", searchData["predictions"][0]["place_id"])
+        let lat = place_json["results"][0]["geometry"]["location"]["lat"]
+        let lng = place_json["results"][0]["geometry"]["location"]["lng"]
+        let city = place_json["results"][0]["address_components"][0]["short_name"]
+        
+        // let coords = locInput.split(",")
+        // let lat = Number.parseFloat(coords[0])
+        // let lng = Number.parseFloat(coords[1])
+        // let city = lat.toString() + " " + lng.toString()
+        points.push({
+            lng: lng,
+            lat: lat,
+            size: Math.random() / 3,
+            color: 'green',
+            name: city
+        })
+        setPoints(points)
+        mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
+        citiesVisited.push({
+            date: "xx/xx/xxxx",
+            city: city,
+            country: "Country",
+            note: "Note Goes Here",
+            latitude: lat,
+            longitude: lng
+        });
+      
     const changeLocVal = (event) => {
         setLocInput(event.target.value)
     }
