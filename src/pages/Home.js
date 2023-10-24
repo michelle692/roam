@@ -8,6 +8,9 @@ import Button from '../components/Button.js';
 import LocationPopup from '../components/LocationPopup.js';
 import Wishlist from '../components/TravelWishlist.js';
 import History from '../components/TravelHistory.js';
+import Info from '../components/Info.js';
+import Stats from '../components/Stats.js';
+
 import { createContext, useContext } from "react";
 
 export const citiesContext = createContext({
@@ -16,38 +19,55 @@ export const citiesContext = createContext({
         city: "Atlanta",
         country: "United States",
         note: "Visited the Georgia Tech Campus",
-        latitude: 50,
-        longitude: -50
+        lat: 33.47,
+        lng: -84.20
     },
     {
         date: "9/04/22",
         city: "Madrid",
         country: "Spain",
         note: "Visited my family to celebrate a birthday!",
-        latitude: 50,
-        longitude: -50
+        lat: 40.42,
+        lng: -3.7
     }],
-    setCitiesVisited: {}
+    wishlist: [],
+    cityCount: 91,
+    stateCount: 14,
+    countryCount: 21,
+    continentCount: 2
 }
 )
 
 function Home() {
-    const { useEffect, useRef } = React;
-    const { citiesVisited, setCitiesVisited } = useContext(citiesContext);
+    const { citiesVisited, wishlist, cityCount, stateCount, countryCount, continentCount } = useContext(citiesContext);
     const [points, setPoints] = useState([]);
     const mainGlobe = useRef();
     const [button1, setButton1] = useState([false, false, false]);
-    const [locInput, setLocInput] = useState("")
+    const [locInput, setLocInput] = useState("");
+    const [outputArr, setOutputArr] = useState(true);
+    const [infoBox, setInfoBox] = useState(false);
+    const [infoCoords, setInfoCoords] = useState({
+        lat: 0,
+        lng: 0
+    });
+    const [statsOpen, setStatsOpen] = useState(true);
+
+    const openStats = () => {
+        setStatsOpen(!statsOpen);
+    }
 
     useEffect(() => {
         const globe = mainGlobe.current;
 
-        globe.controls().autoRotate = true;
+        globe.controls().autoRotate = !infoBox;
         globe.controls().autoRotateSpeed = 0.35;
-    })
+    }, [infoBox])
 
     function clickLabel(lat, lng) {
-        mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
+        mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600);
+        setInfoBox(true);
+        setInfoCoords({lat:lat, lng:lng});
+        console.log(infoCoords.lat);
     }
 
     const handleClick1 = () => {
@@ -55,49 +75,60 @@ function Home() {
     }
     const handleClick2 = () => {
         setButton1([false, !button1[1], false]);
+        setOutputArr(false);
     }
 
     const handleClick3 = () => {
         setButton1([false, false, !button1[2]]);
+        setOutputArr(true);
     }
 
     const handleClick4 = () => {
         setButton1([false, false, false]);
-    }
-    const textStyle = {
-        marginLeft: "10rem",
+        setOutputArr(true);
     }
 
+    const handleClick5 = () => {
+        setInfoBox(false);
+        mainGlobe.current.pointOfView({ lat: infoCoords.lat, lng: infoCoords.lng, altitude: 2 }, 1600);
+    }
+
+    const valid = (val) => {
+        return val !== undefined && !isNaN(val) && val !== "";
+    }
     const handleLocSubmit = () => {
-        setButton1([false, false, false]);
+        setButton1([false, button1[1], button1[2]]);
         console.log(locInput)
         let coords = locInput.split(",")
-        let lat = Number.parseFloat(coords[0])
-        let lng = Number.parseFloat(coords[1])
-        points.push({
-            lng: lng,
-            lat: lat,
-            size: Math.random() / 3,
-            color: 'green',
-            name: lat.toString() + ", " + lng.toString()
-        })
-        setPoints(points)
-        mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
-        citiesVisited.push({
-            date: "xx/xx/xxxx",
-            city: "City",
-            country: "Country",
-            note: "Note Goes Here",
-            latitude: lat,
-            longitude: lng
-        });
+            if (valid(coords[0]) && valid(coords[1])) {
+            let lat = Number.parseFloat(coords[0])
+            let lng = Number.parseFloat(coords[1])
+            setPoints([{
+                lng: lng,
+                lat: lat,
+                size: Math.random() / 3,
+                color: 'green',
+                name: lat.toString() + ", " + lng.toString()
+            }])
+            mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
+            const newCity = {
+                date: "xx/xx/xxxx",
+                city: "City",
+                country: "Country",
+                note: "Note Goes Here",
+                lat: lat,
+                lng: lng
+            }
+            if (outputArr) {
+                citiesVisited.push(newCity);
+            } else {
+                wishlist.push(newCity);
+            }
+        }
     }
 
     const changeLocVal = (event) => {
         setLocInput(event.target.value)
-        // Try uncommenting the following line and open up the console 
-        // to see what is being returned when you type something in the text field.
-        // Search(event.target.value).then((result) => { console.log(result); })
     }
 
     return (
@@ -108,15 +139,15 @@ function Home() {
                 backgroundColor="rgba(0,0,0,0)"
                 atmosphereColor={'white'}
                 atmosphereAltitude="0.3"
-                labelsData={points}
+                labelsData={citiesVisited}
                 labelLat={d => d.lat}
                 labelLng={d => d.lng}
-                labelText={d => d.name}
+                labelText={d => d.city}
                 labelSize={0.85}
                 labelColor={() => 'yellow'}
                 labelIncludeDot={true}
                 labelDotRadius={0.7}
-                onLabelClick={(label, event, { lat, lng, altitude }) => clickLabel(lat, lng)}
+                onLabelClick={(label, event, { lat, lng, altitude }) => clickLabel(label.lat, label.lng)}
             />
 
             <Button val={button1[0]} onClick={handleClick1} offset={'25vh'}>ADD LOCATION</Button>
@@ -125,7 +156,14 @@ function Home() {
 
             <Wishlist openVal={button1[1]} closeVal={handleClick1} openVal2={button1[0]} closeVal2={handleClick4} />
             <History openVal={button1[2]} closeVal={handleClick1} openVal2={button1[0]} closeVal2={handleClick4} />
-            <LocationPopup open={button1[0]} close={handleClick4} onChange={changeLocVal} submit={handleLocSubmit}>ADD LOCATION</LocationPopup>
+            <LocationPopup open={button1[0]} close={handleClick4} onChange={changeLocVal} submit={handleLocSubmit} type={outputArr ? "PIN CITY" : "WISHLIST"}>ADD LOCATION</LocationPopup>
+            {infoBox ? citiesVisited.map((val) => (
+                    <div>   
+                    {val.lat === infoCoords.lat && val.lng === infoCoords.lng ? <Info city={val.city} country={val.country} date={val.date} note={val.note} lat={val.lat} lng={val.lng} 
+                    open={infoBox} close={handleClick5}/> : <div/>}
+                    </div>
+            )) : <div/>}
+            <Stats cityCount={cityCount} stateCount={stateCount} countryCount={countryCount} continentCount={continentCount} visible={statsOpen} open={openStats}/>
         </div>
     )
 }
