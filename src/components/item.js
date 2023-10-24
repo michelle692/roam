@@ -1,5 +1,15 @@
-import React from "react";
+import React, { useState }  from "react";
 import styled, {css} from 'styled-components';
+import Popup from "./popup";
+import Note from "./Note.js";
+
+
+
+
+const handleSaveNote = (noteData) => {
+    
+    console.log('Note data:', noteData);
+};
 
 const itemStyle = {
     paddingLeft: '30px',
@@ -43,12 +53,26 @@ const StyledButton = styled.button`
 `
 
 const Item = ({date, city, country, note, lat, long}) => {
+    
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const handleClickButton = () => {
+        setIsPopupOpen(!isPopupOpen);
+      };
     return (
         <div style={itemStyle}>
             <p style={titleStyle}>{date} | {city}, {country}  |  {lat}, {long}</p>
             <p style={noteStyle}>{note}</p>
-            <StyledButton>🖉</StyledButton>
-        </div>
+            <StyledButton name="button3" onClick={handleClickButton}>
+        Note
+      </StyledButton>
+
+      {isPopupOpen && (
+        <Popup size="500px" open={isPopupOpen} close={handleClickButton} >
+          NOTE
+          <Note onSave={handleSaveNote} />
+        </Popup>
+      )}
+                 </div>
     )
 }
 export default Item;

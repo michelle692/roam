@@ -1,7 +1,7 @@
 import React,  { useState, useRef } from 'react';
 import Globe from 'react-globe.gl';
 import './App.css';
-
+import Note from './components/Note.js';
 import Button from './components/button.js';
 import Popup from './components/popup.js';
 
@@ -56,7 +56,18 @@ function App() {
 
   const handleClick4 = () => {
     setButton1([false, false, false]);
+
   }
+  const handleClick5 = () => {
+    setButton1([false, false, false, !button1[3]]);
+  }
+   
+  const handleSaveNote = (noteData) => {
+    
+    console.log('Note data:', noteData);
+  };
+  
+
   const textStyle = {
     marginLeft: "10rem",
   }
@@ -118,14 +129,14 @@ function App() {
     <Button val={button1[0]} onClick={handleClick1} offset={'25vh'}>ADD LOCATION</Button>
     <Button val={button1[1]} onClick={handleClick2} offset={'calc(25vh + 50px)'}>TRAVEL WISHLIST</Button>
     <Button val={button1[2]} onClick={handleClick3} offset={'calc(25vh + 100px)'}>TRAVEL HISTORY</Button>
-
+    
     
     
     <Wishlist openVal={button1[1]} closeVal={handleClick1} openVal2={button1[0]} closeVal2={handleClick4} />
     <History openVal={button1[2]} closeVal={handleClick1} openVal2={button1[0]} closeVal2={handleClick4} />
     <LocationPopup open={button1[0]} close={handleClick4} onChange={changeLocVal} submit={handleLocSubmit}>ADD LOCATION</LocationPopup>
-
    
+    
  
     <p className="Title">ROAM</p>
     </div>
