@@ -44,7 +44,7 @@ function Home() {
     const mainGlobe = useRef();
     const [button1, setButton1] = useState([false, false, false]);
     const [locInput, setLocInput] = useState("");
-    const [outputArr, setOutputArr] = useState(false);
+    const [outputArr, setOutputArr] = useState(true);
     const [infoBox, setInfoBox] = useState(false);
     const [infoCoords, setInfoCoords] = useState({
         lat: 0,
@@ -85,7 +85,7 @@ function Home() {
 
     const handleClick4 = () => {
         setButton1([false, false, false]);
-        setOutputArr(false);
+        setOutputArr(true);
     }
 
     const handleClick5 = () => {
