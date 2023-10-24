@@ -49,7 +49,7 @@
 }
 
 .info p {
-  font-family: 'Manrope', 'Serif';
+
 }
 
 .info-columns {
@@ -63,7 +63,6 @@
   display: flex;
   flex-direction: column;
   width: 30%;
-  font-family: 'Manrope', 'Serif';
 }
 
 .earth {

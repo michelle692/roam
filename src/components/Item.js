@@ -1,5 +1,6 @@
 import React from "react";
 import styled, {css} from 'styled-components';
+import {BsFillPencilFill} from "react-icons/bs";
 
 const itemStyle = {
     paddingLeft: '30px',
@@ -47,7 +48,7 @@ const Item = ({date, city, country, note, lat, long}) => {
         <div style={itemStyle}>
             <p style={titleStyle}>{date} | {city}, {country}  |  {lat}, {long}</p>
             <p style={noteStyle}>{note}</p>
-            <StyledButton>🖉</StyledButton>
+            <StyledButton style={{display:"flex", alignItems:"center"}}><BsFillPencilFill/></StyledButton>
         </div>
     )
 }
