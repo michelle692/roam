@@ -100,7 +100,7 @@ function Home() {
     }
     
     async function getData(type, name) {
-        if (type == "search") {
+        if (type === "search") {
             try {
                 let searchData = await Search(name)
                 return searchData
@@ -108,7 +108,7 @@ function Home() {
                 return -1
             }
         }
-        if (type == "get") {
+        if (type === "get") {
             try {
                 let searchData = await GetInfo(name)
                 return searchData
@@ -116,6 +116,13 @@ function Home() {
                 return -1
             }
         }
+    }
+
+    const handleDate = (date) => {
+        let year= date.getFullYear(); 
+        let month = String(date.getMonth()+1).padStart(2,"0");
+        let day= String(date.getDate()).padStart(2, '0');
+        return month + "/" + day + "/" + year;
     }
 
     const handleLocSubmit = async () => {
@@ -127,6 +134,7 @@ function Home() {
         let lat = place_json["results"][0]["geometry"]["location"]["lat"]
         let lng = place_json["results"][0]["geometry"]["location"]["lng"]
         let city = place_json["results"][0]["address_components"][0]["short_name"]
+        let country = place_json["results"][0]["address_components"][3]["long_name"]
         
         // let coords = locInput.split(",")
         // let lat = Number.parseFloat(coords[0])
@@ -141,15 +149,22 @@ function Home() {
         })
         setPoints(points)
         mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
-        citiesVisited.push({
-            date: "xx/xx/xxxx",
+
+        const newCity = {
+            date: handleDate(new Date()),
             city: city,
-            country: "Country",
+            country: country,
             note: "Note Goes Here",
-            latitude: lat,
-            longitude: lng
-        });
+            lat: lat,
+            lng: lng
+        };
+        if (outputArr){
+            citiesVisited.push(newCity);
+        }else{
+            wishlist.push(newCity);
+        }
     }
+    
     const changeLocVal = (event) => {
         setLocInput(event.target.value)
     }
