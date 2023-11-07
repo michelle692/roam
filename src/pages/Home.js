@@ -42,7 +42,7 @@ export const citiesContext = createContext({
 function Home() {
     const navigate = useNavigate()
     const { citiesVisited, wishlist, cityCount, stateCount, countryCount, continentCount } = useContext(citiesContext);
-    const [points, setPoints] = useState([]);
+    const [points, setPoints] = useState(citiesVisited);
     const mainGlobe = useRef();
     const [button1, setButton1] = useState([false, false, false]);
     const [locInput, setLocInput] = useState("");
@@ -118,42 +118,61 @@ function Home() {
         }
     }
 
-    const handleLocSubmit = async () => {
-        setButton1([false, false, false]);
-        console.log(locInput)
+    useEffect(() => {
+        //handleLocSubmit()
+        console.log("in use effect, this is opint: ", points)
+    }, [points])
 
-        let searchData = await getData("search", locInput)
-        let place_json = await getData("get", searchData["predictions"][0]["place_id"])
-        let lat = place_json["results"][0]["geometry"]["location"]["lat"]
-        let lng = place_json["results"][0]["geometry"]["location"]["lng"]
-        let city = place_json["results"][0]["address_components"][0]["short_name"]
+    const handleLocSubmit = () => {
+        setButton1([false, false, false]);
+
+        console.log("searching for ", locInput)
+
+   
+        fetch('https://roam-backend.vercel.app/search?text=' + locInput).then((res) => res.json()).then((res) => {
+            console.log("cities visited before:", citiesVisited)
+            citiesVisited.push({
+                date: "xx/xx/xxxx",
+                city: "bahti",
+                country: "Country",
+                note: "Note Goes Here",
+                lat: 40,
+                lng: -74
+            });
+            console.log("cities visited after:", citiesVisited)
+            
+        }).then((res) => setPoints(citiesVisited))
+
+
+        // Search(locInput).then((searchData) => {
+        //     console.log("peepeepoopoo ", searchData)
+        // })
+
+        // console.log("i recieved ", searchData)
+
+        // let place_json = await GetInfo(searchData["predictions"][0]["place_id"])
+
+        // console.log("place info is ", place_json)
+
+        // let lat = place_json["results"][0]["geometry"]["location"]["lat"]
+        // let lng = place_json["results"][0]["geometry"]["location"]["lng"]
+        // let city = place_json["results"][0]["address_components"][0]["short_name"]
         
         // let coords = locInput.split(",")
         // let lat = Number.parseFloat(coords[0])
         // let lng = Number.parseFloat(coords[1])
         // let city = lat.toString() + " " + lng.toString()
-        points.push({
-            lng: lng,
-            lat: lat,
-            size: Math.random() / 3,
-            color: 'green',
-            name: city
-        })
-        setPoints(points)
-        mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
-        citiesVisited.push({
-            date: "xx/xx/xxxx",
-            city: city,
-            country: "Country",
-            note: "Note Goes Here",
-            latitude: lat,
-            longitude: lng
-        });
+        
+        console.log("zooming in")
+        // mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
+        
+
     }
     const changeLocVal = (event) => {
         setLocInput(event.target.value)
     }
 
+    console.log("points", points)
     return (
         <div>
             <Link className="Title" to="/information">ROAM</Link>
@@ -163,7 +182,7 @@ function Home() {
                 backgroundColor="rgba(0,0,0,0)"
                 atmosphereColor={'white'}
                 atmosphereAltitude="0.3"
-                labelsData={citiesVisited}
+                labelsData={points}
                 labelLat={d => d.lat}
                 labelLng={d => d.lng}
                 labelText={d => d.city}
