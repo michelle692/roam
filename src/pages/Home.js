@@ -94,80 +94,34 @@ function Home() {
         setInfoBox(false);
         mainGlobe.current.pointOfView({ lat: infoCoords.lat, lng: infoCoords.lng, altitude: 2 }, 1600);
     }
-    
-    const valid = (val) => {
-        return val !== undefined && !isNaN(val) && val !== "";
-    }
-    
-    async function getData(type, name) {
-        if (type == "search") {
-            try {
-                let searchData = await Search(name)
-                return searchData
-            } catch (error) {
-                return -1
-            }
-        }
-        if (type == "get") {
-            try {
-                let searchData = await GetInfo(name)
-                return searchData
-            } catch (error) {
-                return -1
-            }
-        }
-    }
-
-    useEffect(() => {
-        //handleLocSubmit()
-        console.log("in use effect, this is opint: ", points)
-    }, [points])
 
     const handleLocSubmit = () => {
-        setButton1([false, false, false]);
-
-        console.log("searching for ", locInput)
-
-   
-        fetch('https://roam-backend.vercel.app/search?text=' + locInput).then((res) => res.json()).then((res) => {
-            console.log("cities visited before:", citiesVisited)
-            citiesVisited.push({
-                date: "xx/xx/xxxx",
-                city: "bahti",
-                country: "Country",
-                note: "Note Goes Here",
-                lat: 40,
-                lng: -74
-            });
-            console.log("cities visited after:", citiesVisited)
-            
-        }).then((res) => setPoints(citiesVisited))
-
-
-        // Search(locInput).then((searchData) => {
-        //     console.log("peepeepoopoo ", searchData)
-        // })
-
-        // console.log("i recieved ", searchData)
-
-        // let place_json = await GetInfo(searchData["predictions"][0]["place_id"])
-
-        // console.log("place info is ", place_json)
-
-        // let lat = place_json["results"][0]["geometry"]["location"]["lat"]
-        // let lng = place_json["results"][0]["geometry"]["location"]["lng"]
-        // let city = place_json["results"][0]["address_components"][0]["short_name"]
-        
-        // let coords = locInput.split(",")
-        // let lat = Number.parseFloat(coords[0])
-        // let lng = Number.parseFloat(coords[1])
-        // let city = lat.toString() + " " + lng.toString()
-        
-        console.log("zooming in")
-        // mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
-        
-
+        Search(locInput).then((searchData) => {
+            const place_id = searchData["predictions"][0]["place_id"]
+            GetInfo(place_id).then((place_json) => {
+                let lat = place_json["results"][0]["geometry"]["location"]["lat"]
+                let lng = place_json["results"][0]["geometry"]["location"]["lng"]
+                let city = place_json["results"][0]["address_components"][0]["short_name"]
+                citiesVisited.push({
+                    date: "xx/xx/xxxx",
+                    city: city,
+                    country: "Country",
+                    note: "Note Goes Here",
+                    lat: lat,
+                    lng: lng
+                });
+                setPoints(citiesVisited)
+                mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
+                setButton1([false, false, false]);
+            }).catch((error) => {
+                console.log("unable to get info for ", place_id);
+            })
+        }).catch((error) => {
+            console.log("unable to search ", locInput);
+        })
     }
+
+
     const changeLocVal = (event) => {
         setLocInput(event.target.value)
     }
