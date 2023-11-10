@@ -1,5 +1,13 @@
-// Hard coded for the time being, but will be removed later on.
-const url = 'https://roamapp.pythonanywhere.com'
+const url = 'https://roam-backend.vercel.app'
+
+const call = function (promise) {
+    return promise.then((response) => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok.");
+        }
+        return response.json();
+    })
+}
 
 /**
  * Searches for similar cities matching input text.
@@ -14,7 +22,7 @@ const url = 'https://roamapp.pythonanywhere.com'
  */
 
 export const Search = function (city) {
-    return fetch(url + '/search?text=' + city).then((res) => res.json())
+    return call(fetch(url + '/search?text=' + city))
 }
 
 /**
@@ -27,7 +35,7 @@ export const Search = function (city) {
  */
 
 export const GetInfo = function (place_id) {
-    return fetch(url + '/info?place_id=' + place_id).then((res) => res.json())
+    return call(fetch(url + '/info?place_id=' + place_id))
 }
 
 /**
@@ -45,7 +53,7 @@ export const GetInfo = function (place_id) {
  */
 export const CreateAccount = function (username, password, name) {
     const request = url + '/create?username=' + username + '&password=' + password + '&name=' + name
-    return fetch(request).then((res) => res.json())
+    return call(fetch(request))
 }
 
 /**
@@ -62,5 +70,5 @@ export const CreateAccount = function (username, password, name) {
  */
 export const LoginAccount = function (username, password) {
     const request = url + 'login?username=' + username + '&password=' + password
-    return fetch(request).then((res) => res.json())
+    return call(fetch(request))
 }

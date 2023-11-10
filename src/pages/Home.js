@@ -42,7 +42,7 @@ export const citiesContext = createContext({
 function Home() {
     const navigate = useNavigate()
     const { citiesVisited, wishlist, cityCount, stateCount, countryCount, continentCount } = useContext(citiesContext);
-    const [points, setPoints] = useState([]);
+    const [points, setPoints] = useState(citiesVisited);
     const mainGlobe = useRef();
     const [button1, setButton1] = useState([false, false, false]);
     const [locInput, setLocInput] = useState("");
@@ -94,66 +94,39 @@ function Home() {
         setInfoBox(false);
         mainGlobe.current.pointOfView({ lat: infoCoords.lat, lng: infoCoords.lng, altitude: 2 }, 1600);
     }
-    
-    const valid = (val) => {
-        return val !== undefined && !isNaN(val) && val !== "";
-    }
-    
-    async function getData(type, name) {
-        if (type == "search") {
-            try {
-                let searchData = await Search(name)
-                return searchData
-            } catch (error) {
-                return -1
-            }
-        }
-        if (type == "get") {
-            try {
-                let searchData = await GetInfo(name)
-                return searchData
-            } catch (error) {
-                return -1
-            }
-        }
-    }
 
-    const handleLocSubmit = async () => {
-        setButton1([false, false, false]);
-        console.log(locInput)
-
-        let searchData = await getData("search", locInput)
-        let place_json = await getData("get", searchData["predictions"][0]["place_id"])
-        let lat = place_json["results"][0]["geometry"]["location"]["lat"]
-        let lng = place_json["results"][0]["geometry"]["location"]["lng"]
-        let city = place_json["results"][0]["address_components"][0]["short_name"]
-        
-        // let coords = locInput.split(",")
-        // let lat = Number.parseFloat(coords[0])
-        // let lng = Number.parseFloat(coords[1])
-        // let city = lat.toString() + " " + lng.toString()
-        points.push({
-            lng: lng,
-            lat: lat,
-            size: Math.random() / 3,
-            color: 'green',
-            name: city
+    const handleLocSubmit = () => {
+        Search(locInput).then((searchData) => {
+            const place_id = searchData["predictions"][0]["place_id"]
+            GetInfo(place_id).then((place_json) => {
+                let lat = place_json["results"][0]["geometry"]["location"]["lat"]
+                let lng = place_json["results"][0]["geometry"]["location"]["lng"]
+                let city = place_json["results"][0]["address_components"][0]["short_name"]
+                citiesVisited.push({
+                    date: "xx/xx/xxxx",
+                    city: city,
+                    country: "Country",
+                    note: "Note Goes Here",
+                    lat: lat,
+                    lng: lng
+                });
+                setPoints(citiesVisited)
+                mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
+                setButton1([false, false, false]);
+            }).catch((error) => {
+                console.log("unable to get info for ", place_id);
+            })
+        }).catch((error) => {
+            console.log("unable to search ", locInput);
         })
-        setPoints(points)
-        mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
-        citiesVisited.push({
-            date: "xx/xx/xxxx",
-            city: city,
-            country: "Country",
-            note: "Note Goes Here",
-            latitude: lat,
-            longitude: lng
-        });
     }
+
+
     const changeLocVal = (event) => {
         setLocInput(event.target.value)
     }
 
+    console.log("points", points)
     return (
         <div>
             <Link className="Title" to="/information">ROAM</Link>
@@ -163,7 +136,7 @@ function Home() {
                 backgroundColor="rgba(0,0,0,0)"
                 atmosphereColor={'white'}
                 atmosphereAltitude="0.3"
-                labelsData={citiesVisited}
+                labelsData={points}
                 labelLat={d => d.lat}
                 labelLng={d => d.lng}
                 labelText={d => d.city}
