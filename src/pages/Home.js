@@ -95,22 +95,44 @@ function Home() {
         mainGlobe.current.pointOfView({ lat: infoCoords.lat, lng: infoCoords.lng, altitude: 2 }, 1600);
     }
 
+    const handleDate = (date) => {
+        let year= date.getFullYear(); 
+        let month = String(date.getMonth()+1).padStart(2,"0");
+        let day= String(date.getDate()).padStart(2, '0');
+        return month + "/" + day + "/" + year;
+    }
+
     const handleLocSubmit = () => {
         Search(locInput).then((searchData) => {
             const place_id = searchData["predictions"][0]["place_id"]
             GetInfo(place_id).then((place_json) => {
-                let lat = place_json["results"][0]["geometry"]["location"]["lat"]
-                let lng = place_json["results"][0]["geometry"]["location"]["lng"]
-                let city = place_json["results"][0]["address_components"][0]["short_name"]
-                citiesVisited.push({
-                    date: "xx/xx/xxxx",
+                let place = place_json["results"][0];
+                let lat = place["geometry"]["location"]["lat"]
+                let lng = place["geometry"]["location"]["lng"]
+                let city = place["address_components"][0]["short_name"]
+                let country = "Country Not Found";
+                for (let i = 0; i < place["address_components"].length; i ++){
+                    if (place["address_components"][i]["types"].includes("country")){
+                        country = place["address_components"][i]["long_name"];
+                        break;
+                    }
+                }
+                const newCity = {
+                    date: handleDate(new Date()),
                     city: city,
-                    country: "Country",
+                    country: country,
                     note: "Note Goes Here",
                     lat: lat,
                     lng: lng
-                });
-                setPoints(citiesVisited)
+                };
+                if (outputArr){
+                    citiesVisited.push(newCity);
+                    setPoints(citiesVisited);
+                }else{
+                    wishlist.push(newCity);
+                    setPoints(wishlist);
+                }
+                
                 mainGlobe.current.pointOfView({ lat: lat, lng: lng, altitude: .5 }, 1600)
                 setButton1([false, false, false]);
             }).catch((error) => {
@@ -126,7 +148,6 @@ function Home() {
         setLocInput(event.target.value)
     }
 
-    console.log("points", points)
     return (
         <div>
             <Link className="Title" to="/information">ROAM</Link>
