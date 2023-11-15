@@ -46,6 +46,11 @@ const StyledButton = styled.button`
       mix-blend-mode: screen;
   `}
 `
+
+const round = (val) => {
+  return Math.round(val*100)/100;
+}
+
 const History = ({ openVal, closeVal, openVal2, closeVal2 }) => {
   const { citiesVisited } = useContext(RoamContext);
   return (
@@ -59,7 +64,7 @@ const History = ({ openVal, closeVal, openVal2, closeVal2 }) => {
           <StyledButton val={openVal2} onClick={closeVal} offset={'1vh'}>ADD LOCATION</StyledButton>
         </div>
         {citiesVisited.length > 0 ? citiesVisited.map((val) => (
-          <Item date={val.date} city={val.city} country={val.country} note={val.note} lat={val.lat} long={val.lng} />
+          <Item date={val.date} city={val.city} country={val.country} note={val.note} lat={round(val.lat)} long={round(val.lng)}/>
         )) : <em style={description}>You have no cities in your history. Add a city using the "Add Location" button in the upper right.</em>}
       </div>
     </LargePopup>

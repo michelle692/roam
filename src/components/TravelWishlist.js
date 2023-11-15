@@ -48,6 +48,10 @@ const StyledButton = styled.button`
     `}
 `
 
+const round = (val) => {
+  return Math.round(val*100)/100;
+}
+
 const Wishlist = ({openVal, closeVal, openVal2, closeVal2}) => {
     const {citiesVisited, wishlist} = useContext(RoamContext);
     return (
@@ -61,7 +65,7 @@ const Wishlist = ({openVal, closeVal, openVal2, closeVal2}) => {
           <StyledButton val={openVal2} onClick={closeVal} offset={'1vh'}>ADD LOCATION</StyledButton>
           </div>
           {wishlist.length > 0 ? wishlist.map((val) => (
-            <Item date={val.date} city={val.city} country={val.country} note={val.note} lat={val.lat} long={val.lng}/>
+            <Item date={val.date} city={val.city} country={val.country} note={val.note} lat={round(val.lat)} long={round(val.lng)}/>
           )) : <em style={description}>You have no cities in your wishlist. Add a city using the "Add Location" button in the upper right.</em>}
         </div>
       </LargePopup>
