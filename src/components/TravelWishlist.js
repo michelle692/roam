@@ -1,5 +1,5 @@
 import LargePopup from './LargePopup.js';
-import { citiesContext } from "../pages/Home.js";
+import { RoamContext } from "../utils/roamContext.js";
 import { React, useContext } from "react";
 import Button from './Button.js';
 import Item from './Item.js';
@@ -49,7 +49,7 @@ const StyledButton = styled.button`
 `
 
 const Wishlist = ({openVal, closeVal, openVal2, closeVal2}) => {
-    const {citiesVisited, wishlist} = useContext(citiesContext);
+    const {citiesVisited, wishlist} = useContext(RoamContext);
     return (
         <LargePopup open={openVal} close={closeVal2}>
         <div style={boxStyle}>
