@@ -11,37 +11,13 @@ import Wishlist from '../components/TravelWishlist.js';
 import History from '../components/TravelHistory.js';
 import Info from '../components/Info.js';
 import Stats from '../components/Stats.js';
+import { RoamContext } from '../utils/roamContext.js';
 
-import { createContext, useContext } from "react";
-
-export const citiesContext = createContext({
-    citiesVisited: [{
-        date: "10/17/23",
-        city: "Atlanta",
-        country: "United States",
-        note: "Visited the Georgia Tech Campus",
-        lat: 33.47,
-        lng: -84.20
-    },
-    {
-        date: "9/04/22",
-        city: "Madrid",
-        country: "Spain",
-        note: "Visited my family to celebrate a birthday!",
-        lat: 40.42,
-        lng: -3.7
-    }],
-    wishlist: [],
-    cityCount: 91,
-    stateCount: 14,
-    countryCount: 21,
-    continentCount: 2
-}
-)
+import { useContext } from "react";
 
 function Home() {
     const navigate = useNavigate()
-    const { citiesVisited, wishlist, cityCount, stateCount, countryCount, continentCount } = useContext(citiesContext);
+    const { citiesVisited, wishlist, cityCount, stateCount, countryCount, continentCount } = useContext(RoamContext);
     const [points, setPoints] = useState(citiesVisited);
     const mainGlobe = useRef();
     const [button1, setButton1] = useState([false, false, false]);
@@ -72,15 +48,15 @@ function Home() {
         console.log(infoCoords.lat);
     }
 
-    const handleClick1 = () => {
+    const handleAddLocation = () => {
         setButton1([!button1[0], button1[1], button1[2]]);
     }
-    const handleClick2 = () => {
+    const handleOpenWishlist = () => {
         setButton1([false, !button1[1], false]);
         setOutputArr(false);
     }
 
-    const handleClick3 = () => {
+    const handleOpenHistory = () => {
         setButton1([false, false, !button1[2]]);
         setOutputArr(true);
     }
@@ -147,12 +123,12 @@ function Home() {
                 onLabelClick={(label, event, { lat, lng, altitude }) => clickLabel(label.lat, label.lng)}
             />
 
-            <Button val={button1[0]} onClick={handleClick1} offset={'25vh'}>ADD LOCATION</Button>
-            <Button val={button1[1]} onClick={handleClick2} offset={'calc(25vh + 50px)'}>TRAVEL WISHLIST</Button>
-            <Button val={button1[2]} onClick={handleClick3} offset={'calc(25vh + 100px)'}>TRAVEL HISTORY</Button>
+            <Button val={button1[0]} onClick={handleAddLocation} offset={'25vh'}>ADD LOCATION</Button>
+            <Button val={button1[1]} onClick={handleOpenWishlist} offset={'calc(25vh + 50px)'}>TRAVEL WISHLIST</Button>
+            <Button val={button1[2]} onClick={handleOpenHistory} offset={'calc(25vh + 100px)'}>TRAVEL HISTORY</Button>
 
-            <Wishlist openVal={button1[1]} closeVal={handleClick1} openVal2={button1[0]} closeVal2={handleClick4} />
-            <History openVal={button1[2]} closeVal={handleClick1} openVal2={button1[0]} closeVal2={handleClick4} />
+            <Wishlist openVal={button1[1]} closeVal={handleAddLocation} openVal2={button1[0]} closeVal2={handleClick4} />
+            <History openVal={button1[2]} closeVal={handleAddLocation} openVal2={button1[0]} closeVal2={handleClick4} />
             <LocationPopup open={button1[0]} close={handleClick4} onChange={changeLocVal} submit={handleLocSubmit} type={outputArr ? "PIN CITY" : "WISHLIST"}>ADD LOCATION</LocationPopup>
             {infoBox ? citiesVisited.map((val) => (
                     <div>   
