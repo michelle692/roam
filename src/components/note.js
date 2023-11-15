@@ -27,8 +27,8 @@ function Note({ close, onSave }) {
   };
 
   const handleSave = () => {
-    onSave({ text, listStyle });
-    close();
+    console.log(text);
+
   };
   const handleBulletedClick = () => {
     // Get the current cursor position
