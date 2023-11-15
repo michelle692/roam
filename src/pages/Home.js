@@ -11,6 +11,7 @@ import Wishlist from '../components/TravelWishlist.js';
 import History from '../components/TravelHistory.js';
 import Info from '../components/Info.js';
 import Stats from '../components/Stats.js';
+import Note from '../components/note';
 
 import { createContext, useContext } from "react";
 

@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, {css} from 'styled-components';
 import {BsFillPencilFill} from "react-icons/bs";
+import Note from "./note";
+import Popup from "./Popup";
 
+
+
+
+const handleSaveNote = (noteData) => {
+
+    console.log('Note data:', noteData);
+};
 const itemStyle = {
     paddingLeft: '30px',
     paddingRight: '30px',
@@ -44,12 +53,25 @@ const StyledButton = styled.button`
 `
 
 const Item = ({date, city, country, note, lat, long}) => {
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const handleClickButton = () => {
+        setIsPopupOpen(!isPopupOpen);
+      };
     return (
+        
         <div style={itemStyle}>
             <p style={titleStyle}>{date} | {city}, {country}  |  {lat}, {long}</p>
             <p style={noteStyle}>{note}</p>
-            <StyledButton style={{display:"flex", alignItems:"center"}}><BsFillPencilFill/></StyledButton>
-        </div>
+            <StyledButton style={{display:"flex", alignItems:"center"}} onClick={handleClickButton}><BsFillPencilFill/></StyledButton>
+
+      {isPopupOpen && (
+        <Popup size="500px" open={isPopupOpen} close={handleClickButton} >
+          NOTE
+          <Note onSave={handleSaveNote} />
+        </Popup>
+      )}
+                 </div>
+        
     )
 }
 export default Item;
