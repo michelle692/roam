@@ -11,6 +11,8 @@ import Wishlist from '../components/TravelWishlist.js';
 import History from '../components/TravelHistory.js';
 import Info from '../components/Info.js';
 import Stats from '../components/Stats.js';
+import LoginPopup from '../components/LoginPopup.js'
+import UserButton from '../components/UserButton'
 
 import { createContext, useContext } from "react";
 
@@ -53,6 +55,7 @@ function Home() {
         lng: 0
     });
     const [statsOpen, setStatsOpen] = useState(true);
+    const [loginOpen, setLoginOpen] = useState(false);
 
     const openStats = () => {
         setStatsOpen(!statsOpen);
@@ -93,6 +96,10 @@ function Home() {
     const handleClick5 = () => {
         setInfoBox(false);
         mainGlobe.current.pointOfView({ lat: infoCoords.lat, lng: infoCoords.lng, altitude: 2 }, 1600);
+    }
+
+    const handleClick6 = () => {
+        setLoginOpen(!loginOpen)
     }
 
     const handleLocSubmit = () => {
@@ -146,6 +153,8 @@ function Home() {
                 labelDotRadius={0.7}
                 onLabelClick={(label, event, { lat, lng, altitude }) => clickLabel(label.lat, label.lng)}
             />
+            <UserButton onClick={handleClick6} />
+            <LoginPopup open={loginOpen} close={handleClick6}/>
 
             <Button val={button1[0]} onClick={handleClick1} offset={'25vh'}>ADD LOCATION</Button>
             <Button val={button1[1]} onClick={handleClick2} offset={'calc(25vh + 50px)'}>TRAVEL WISHLIST</Button>
@@ -160,7 +169,7 @@ function Home() {
                     open={infoBox} close={handleClick5}/> : <div/>}
                     </div>
             )) : <div/>}
-            <Stats cityCount={cityCount} stateCount={stateCount} countryCount={countryCount} continentCount={continentCount} visible={statsOpen} open={openStats}/>
+            <Stats cityCount={cityCount} stateCount={stateCount} countryCount={countryCount} continentCount={continentCount} visible={statsOpen} open={openStats}/>            
         </div>
     )
 }
