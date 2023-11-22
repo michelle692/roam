@@ -11,6 +11,8 @@ import Wishlist from '../components/TravelWishlist.js';
 import History from '../components/TravelHistory.js';
 import Info from '../components/Info.js';
 import Stats from '../components/Stats.js';
+import LoginPopup from '../components/LoginPopup.js'
+import UserButton from '../components/UserButton'
 import { RoamContext } from '../utils/roamContext.js';
 
 import { useContext } from "react";
@@ -29,6 +31,7 @@ function Home() {
         lng: 0
     });
     const [statsOpen, setStatsOpen] = useState(true);
+    const [loginOpen, setLoginOpen] = useState(false);
 
     const openStats = () => {
         setStatsOpen(!statsOpen);
@@ -76,6 +79,10 @@ function Home() {
         let month = String(date.getMonth()+1).padStart(2,"0");
         let day= String(date.getDate()).padStart(2, '0');
         return month + "/" + day + "/" + year;
+    }
+
+    const handleLoginPopup = () => {
+        setLoginOpen(!loginOpen)
     }
 
     const handleLocSubmit = () => {
@@ -143,6 +150,8 @@ function Home() {
                 labelDotRadius={0.7}
                 onLabelClick={(label, event, { lat, lng, altitude }) => clickLabel(label.lat, label.lng)}
             />
+            <UserButton onClick={handleLoginPopup} />
+            <LoginPopup open={loginOpen} close={handleLoginPopup}/>
 
             <Button val={button1[0]} onClick={handleAddLocation} offset={'25vh'}>ADD LOCATION</Button>
             <Button val={button1[1]} onClick={handleOpenWishlist} offset={'calc(25vh + 50px)'}>TRAVEL WISHLIST</Button>
@@ -157,7 +166,7 @@ function Home() {
                     open={infoBox} close={handleClick5}/> : <div/>}
                     </div>
             )) : <div/>}
-            <Stats cityCount={cityCount} stateCount={stateCount} countryCount={countryCount} continentCount={continentCount} visible={statsOpen} open={openStats}/>
+            <Stats cityCount={cityCount} stateCount={stateCount} countryCount={countryCount} continentCount={continentCount} visible={statsOpen} open={openStats}/>            
         </div>
     )
 }
