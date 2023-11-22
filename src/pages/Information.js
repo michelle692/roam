@@ -16,7 +16,7 @@ function Information() {
     return (
         <div className="info-div">
             <img src={Earth} className="earth"/>
-            <div className="info">
+            <div className="transparent">
                 <h1> ROAM </h1>
                 <p> Log your journeys and plan your adventures from the convenience of a web browser. </p>
                 <div className="info-columns"> 

@@ -40,12 +40,12 @@
   gap: 5em;
 }
 
-.info {
+.transparent {
   backdrop-filter: blur(5px);
   background-color: rgba(139, 116, 176, 0.45);
   height: 75%;
   padding: 1em 2em;
-
+  width: 95%;
 }
 
 .info-columns {

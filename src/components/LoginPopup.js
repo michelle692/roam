@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import "@fontsource/overpass-mono";
 import "@fontsource/karla"
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const popupStyle = {
     overlay: {
@@ -78,6 +79,8 @@ const StyledButton = {
 }
 
 function LoginPopup({children, open, close}) {
+    const navigate = useNavigate();
+
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
@@ -115,7 +118,7 @@ function LoginPopup({children, open, close}) {
 
                 <input style={StyledButton} type="submit" value="SIGN IN" onClick={handleSubmit}/>
 
-                <p style={{ marginTop: '.5em' }}> <a style={linkStyle}> Don't have a profile? </a> </p>
+                <p style={{ marginTop: '.5em' }}> <a style={linkStyle} onClick={() => navigate('/create-account')}> Don't have a profile? </a> </p>
             </div>
 
             <ExitButton onClick={close}> X </ExitButton>
