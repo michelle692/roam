@@ -1,4 +1,5 @@
 const url = 'https://roam-backend.vercel.app'
+const url2 = 'http://127.0.0.1:5000/'
 
 const call = function (promise) {
     return promise.then((response) => {
@@ -69,6 +70,58 @@ export const CreateAccount = function (username, password, name) {
  * @returns 
  */
 export const LoginAccount = function (username, password) {
-    const request = url + 'login?username=' + username + '&password=' + password
+    const request = url + '/login?username=' + username + '&password=' + password
     return call(fetch(request))
+}
+
+/**
+ Functionality for manipulating history
+ */
+
+export const AddHistory = function(user_id, city, place_id, notes, country, date, lat, lng) {
+    const request = url + '/histories/add?user_id=' + user_id + "&city=" + city + "&place_id=" + place_id + "&notes=" + notes + "&country=" + country + "&date=" + date + "&lat=" + lat + "&lng=" + lng;
+    return call(fetch(request));
+}
+
+export const GetHistory = function (user_id){
+    const request = url + '/histories/get?user_id=' + user_id;
+    return call(fetch(request));
+}
+
+export const EditHistory = function(history_id, notes){
+    console.log(history_id);
+    console.log(notes);
+    const request = url + '/histories/edit?history_id=' + history_id + '&notes=' + notes;
+    return call(fetch(request));
+}
+
+export const RemoveHistory = function(history_id){
+    const request = url + '/histories/remove?history_id=' + history_id;
+    return call(fetch(request)); 
+}
+
+/**
+ Functionality for manipulating wishlist
+ */
+
+export const AddWishlist = function(user_id, city, place_id, notes, country, date, lat, lng) {
+    const request = url + '/wishlists/add?user_id=' + user_id + "&city=" + city + "&place_id=" + place_id + "&notes=" + notes + "&country=" + country + "&date=" + date + "&lat=" + lat + "&lng=" + lng;
+    return call(fetch(request));
+}
+
+export const GetWishlist = function (user_id){
+    const request = url + '/wishlists/get?user_id=' + user_id;
+    return call(fetch(request));
+}
+
+export const EditWishlist = function(history_id, notes){
+    console.log(history_id);
+    console.log(notes);
+    const request = url + '/wishlists/edit?history_id=' + history_id + '&notes=' + notes;
+    return call(fetch(request));
+}
+
+export const RemoveWishlist = function(history_id){
+    const request = url + '/wishlists/remove?history_id=' + history_id;
+    return call(fetch(request)); 
 }

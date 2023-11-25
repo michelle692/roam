@@ -31,7 +31,7 @@ const StyledButton = styled.button`
     `}
 `
 
-const Button = ({ children, onClick, val, offset, start }) => {
+const Button = ({ children, onClick, val, offset, start}) => {
     return (
         <StyledButton val={val} onClick={onClick} offset={offset} start={start}> {children} </StyledButton>
     )
