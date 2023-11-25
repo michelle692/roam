@@ -52,7 +52,7 @@ const StyledButton = styled.button`
     }
 `
 
-const Item = ({date, city, country, note, lat, long}) => {
+const Item = ({date, city, country, note, lat, long, history_id, setNote}) => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const handleClickButton = () => {
         setIsPopupOpen(!isPopupOpen);
@@ -67,7 +67,7 @@ const Item = ({date, city, country, note, lat, long}) => {
       {isPopupOpen && (
         <Popup size="500px" open={isPopupOpen} close={handleClickButton} >
           NOTE
-          <Note onSave={handleSaveNote} />
+          <Note onSave={handleSaveNote} history_id={history_id} setNote={setNote} city={city}/>
         </Popup>
       )}
                  </div>

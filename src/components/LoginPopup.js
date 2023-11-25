@@ -1,9 +1,10 @@
-import { LoginAccount } from "../utils/api";
+import { LoginAccount, GetHistory, GetWishlist } from "../utils/api";
 import Modal from 'react-modal';
 import styled, { css } from 'styled-components';
 import "@fontsource/overpass-mono";
 import "@fontsource/karla"
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const popupStyle = {
     overlay: {
@@ -57,11 +58,11 @@ const CustomInput = {
 }
 
 const linkStyle = {
-   fontFamily: 'Karla',
-   fontSize: '15px',
-   fontWeight: '300',
-   textDecoration: 'underline',
-   cursor: 'pointer'
+    fontFamily: 'Karla',
+    fontSize: '15px',
+    fontWeight: '300',
+    textDecoration: 'underline',
+    cursor: 'pointer'
 }
 
 const StyledButton = {
@@ -77,45 +78,113 @@ const StyledButton = {
     cursor: 'pointer'
 }
 
-function LoginPopup({children, open, close}) {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+const messageStyle = {
+    color: 'black',
+    textAlign: "left",
+    fontFamily: 'Overpass Mono',
+    fontSize: '16px'
+}
+
+function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoints, setWishlist }) {
+    const navigate = useNavigate();
+
+    const [user, setUsername] = useState('');
+    const [pass, setPassword] = useState('');
+    const [message, setMessage] = useState('');
+
+    function present(val) {
+        return val !== "";
+    }
 
     function handleSubmit() {
-        LoginAccount(username, password)
-        console.log('signed in user: ' + username + ', password: ' + password)
+        if (present(user) && present(pass)) {
+            LoginAccount(user, pass).then((result) => {
+                console.log(result);
+                if (result.error === undefined) {
+                    setMessage("logged in.");
+                    const newUser = {
+                        name: result.name,
+                        username: user,
+                        password: pass,
+                        userID: result._id.$oid
+                    }
+                    setUser(newUser);
+                    GetHistory(newUser.userID).then((result2) => {
+                        const updatedCitiesVisited = result2.map((val) => {
+                            const newCity = {
+                                date: val.date,
+                                city: val.city,
+                                country: val.country,
+                                note: val.notes,
+                                lat: val.lat,
+                                lng: val.lng,
+                                history_id: val._id.$oid
+                            }
+                            return newCity;
+                        });
+                        setCitiesVisited(updatedCitiesVisited);
+                        setPoints(updatedCitiesVisited);
+                    });
+                    GetWishlist(newUser.userID).then((result2) => {
+                        const updatedWishlist = result2.map((val) => {
+                            const newCity = {
+                                date: val.date,
+                                city: val.city,
+                                country: val.country,
+                                note: val.notes,
+                                lat: val.lat,
+                                lng: val.lng,
+                                history_id: val._id.$oid
+                            }
+                            return newCity;
+                        });
+                        setWishlist(updatedWishlist);
+                    });
+                    close();
+                } else {
+                    setMessage(result.error);
+                }
+            });
+        } else {
+            setMessage("please fill in all fields.")
+        }
     }
 
     function handleUserChange(event) {
-        setUsername(event.target.value)
+        setUsername(event.target.value);
     }
 
     function handlePasswordChange(event) {
-        setPassword(event.target.value)
+        setPassword(event.target.value);
     }
 
     return (
-        <Modal isOpen={open}  backdrop="static" style={popupStyle}>
+        <Modal isOpen={open} backdrop="static" style={popupStyle}>
             <style>
-            {` 
+                {` 
                 ::placeholder { 
                     color: black; 
                 }
                 textarea:focus, input:focus{
                     outline: none;
                 }
-                ` 
-            } 
+                `
+                }
             </style>
             <div>
                 <h3> LOGIN TO ACCESS MORE FEATURES </h3>
 
-                <input style={CustomInput} type="text" placeholder="USERNAME" id="username" onChange={handleUserChange}/>
-                <input style={CustomInput} type="text" placeholder="PASSWORD" id="password" onChange={handlePasswordChange}/>
+                <input autocomplete="off" style={CustomInput} type="text" placeholder="USERNAME" id="username" value={user} onChange={handleUserChange} />
+                <input autocomplete="off" style={CustomInput} type="text" placeholder="PASSWORD" id="password" value={pass} onChange={handlePasswordChange} />
 
-                <input style={StyledButton} type="submit" value="SIGN IN" onClick={handleSubmit}/>
+                <input style={StyledButton} type="submit" value="SIGN IN" onClick={handleSubmit} />
+                {message === undefined ? (
+                    <></>
+                ) : (
+                    <p style={messageStyle}>{message}</p>
+                )}
 
-                <p style={{ marginTop: '.5em' }}> <a style={linkStyle}> Don't have a profile? </a> </p>
+                <p style={{ marginTop: '.5em' }}> <a style={linkStyle} onClick={() => navigate('/create-account')}> Don't have a profile? </a> </p>
             </div>
 
             <ExitButton onClick={close}> X </ExitButton>
