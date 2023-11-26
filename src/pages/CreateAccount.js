@@ -145,7 +145,7 @@ function CreateAccountPage() {
     }
 
     return (
-        <div style={PageStyle}>
+        <main style={PageStyle}>
             <style>
                 {` 
                 ::placeholder { 
@@ -158,7 +158,7 @@ function CreateAccountPage() {
                 }
             </style>
             <img src={Earth} className="earth" />
-            <div style={Transparent}>
+            <section style={Transparent}>
                 <h3 style={{ fontSize: '40px', marginBottom: '0' }} > CREATE A PROFILE </h3>
                 <p style={{ fontSize: '16px', marginBottom: '3em' }} > START LOGGING YOUR TRAVELS </p>
 
@@ -177,8 +177,8 @@ function CreateAccountPage() {
                     <p style={messageStyle}>{message}</p>
                 )}
                 
-            </div>
-        </div>
+            </section>
+        </main>
     )
 }
 

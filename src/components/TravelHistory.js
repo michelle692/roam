@@ -52,7 +52,7 @@ const round = (val) => {
 const History = ({ openVal, closeVal, openVal2, closeVal2, citiesVisited, setNote, deleteLocation }) => {
   return (
     <LargePopup open={openVal} close={closeVal2}>
-      <div style={boxStyle}>
+      <section style={boxStyle}>
         <div style={headerStyle}>
           <div style={{ display: "flex", flexDirection: "row", marginLeft: "10rem" }}>
             <AiFillStar />
@@ -63,7 +63,7 @@ const History = ({ openVal, closeVal, openVal2, closeVal2, citiesVisited, setNot
         {citiesVisited.length > 0 ? citiesVisited.map((val) => (
           <Item date={val.date} city={val.city} country={val.country} note={val.note} lat={round(val.lat)} long={round(val.lng)} history_id={val.history_id} setNote={setNote} deleteLocation={deleteLocation}/>
         )) : <em style={description}>You have no cities in your history. Add a city using the "Add Location" button in the upper right.</em>}
-      </div>
+      </section>
     </LargePopup>
   )
 }

@@ -51,7 +51,7 @@ const locationInput = {
     width: "90%",
     color: "black"
 }
-const divStyle = {
+const container = {
     display: "flex",
     alignItems: "center",
     flexDirection: "column"
@@ -88,7 +88,7 @@ const LocationPopup = ({ children, open, close, locInput, onChange, submit}) => 
 
     return (
         <Modal isOpen={open} backdrop="static" style={popupStyle}>
-            <div style={divStyle}>
+            <section style={container}>
                 <div style={{ display: "flex", flexDirection: "row" }}>
                     <BsGlobe2 />
                     <span>&nbsp;{children}</span>
@@ -115,7 +115,7 @@ const LocationPopup = ({ children, open, close, locInput, onChange, submit}) => 
                 ) : (
                     <p style={textStyle}><i>No locations found.</i></p>
                 )}
-            </div>
+            </section>
         </Modal>
     )
 }

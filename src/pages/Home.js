@@ -348,7 +348,7 @@ function Home() {
 
     //Renders home page
     return (
-        <div>
+        <main>
             <Link className="Title" to="/information">ROAM</Link>
             <Globe
                 ref={mainGlobe}
@@ -396,7 +396,7 @@ function Home() {
                         open={infoBox} close={closeInfoBox} /> : <div />}
                 </div>
             )) : <div />}
-        </div>
+        </main>
     )
 }
 export default Home;

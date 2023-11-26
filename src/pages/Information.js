@@ -18,45 +18,44 @@ function Information() {
     const navigate = useNavigate();
 
     return (
-        <div className="info-div">
+        <main className="info-div">
             <img src={Earth} className="earth" />
             <div className="transparent">
-                <div className="container">
+                <article className="container">
                     <h1> ROAM </h1>
                     <p> Log your journeys and plan your adventures from the convenience of a web browser. </p>
                     <div className="info-columns">
-                        <div className="info-column">
+                        <section className="info-column">
                             <BsGlobe2 fontSize={'25px'} />
                             <h3> Interact with a 3D Globe </h3>
 
                             <p> Our landing page consists of a globe that the user can interact with by rotating it, zooming in,
                                 and clicking on pins of locations they have traveled to.
                             </p>
-                        </div>
+                        </section>
 
-                        <div className="info-column">
+                        <section className="info-column">
                             <IoIosAddCircleOutline fontSize={'25px'} />
                             <h3> Add every new trip </h3>
 
                             <p> After completing a trip, mark your memories on the globe by clicking "Add Location" and then
                                 searching for the city you visited. Add notes to remember your journey!
                             </p>
-                        </div>
+                        </section>
 
-                        <div className="info-column">
+                        <section className="info-column">
                             <PiStarDuotone fontSize={'25px'} />
                             <h3> Create a wishlist </h3>
-
                             <p> Plan your future adventures using our wishlist feature. Add notes of landmarks you plan to visit
                                 or sights you plan to see when you go on the trip of your dreams.
                             </p>
-                        </div>
+                        </section>
                     </div>
-                    <br/>
+                    <br />
                     <Button start={true} onClick={() => navigate('/')}> GET STARTED <CiLocationArrow1 fontSize={'20px'} /> </Button>
-                </div>
+                </article>
             </div>
-        </div>
+        </main>
     )
 }
 

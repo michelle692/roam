@@ -69,11 +69,11 @@ const noteStyle = {
 const Info = ({city, country, date, note, lat, lng, open, close}) => {
     return (
         <Modal isOpen={open}  backdrop="static" style={popupStyle}>
-            <div style={boxStyle}>
+            <section style={boxStyle}>
             <span style={titleStyle}>{city}, {country}</span>
             <span style={visitedStyle}>Visited on {date}</span>
             <div style={noteStyle}>{note}</div>
-            </div>
+            </section>
             <ExitButton onClick={close}>X</ExitButton>
         </Modal>
     )

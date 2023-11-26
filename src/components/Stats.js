@@ -49,7 +49,7 @@ const ExitButton2 = styled.button`
 
 const Stats = ({cityCount, stateCount, countryCount, visible, open}) => {
     return (
-        <div>
+        <section>
         {visible ? 
         <div style={StatsStyle}>
             <ExitButton onClick={open} style={{display:"flex", alignItems:"center"}}><AiFillStar/></ExitButton>
@@ -58,7 +58,7 @@ const Stats = ({cityCount, stateCount, countryCount, visible, open}) => {
             <span>COUNTRIES VISITED: {countryCount}</span>
         </div>
         : <ExitButton2 onClick={open} style={{display:"flex", alignItems:"center"}}><AiFillStar/></ExitButton2>}
-        </div>
+        </section>
     )
 }
 export default Stats;

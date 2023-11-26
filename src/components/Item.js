@@ -56,8 +56,7 @@ const Item = ({ date, city, country, note, lat, long, history_id, setNote, delet
         setIsPopupOpen(!isPopupOpen);
     };
     return (
-
-        <div style={itemStyle}>
+        <section style={itemStyle}>
             <p style={titleStyle}>{date} | {city}, {country}  |  {lat}, {long}</p>
             <p style={noteStyle}>{note}</p>
             <div style={buttonHolder}>
@@ -71,7 +70,7 @@ const Item = ({ date, city, country, note, lat, long, history_id, setNote, delet
                     <Note history_id={history_id} setNote={setNote} />
                 </Popup>
             )}
-        </div>
+        </section>
 
     )
 }

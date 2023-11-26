@@ -190,7 +190,7 @@ function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoint
                 }
             </style>
             {userData.username === "" ? (
-                <div>
+                <section>
 
                     <h3> LOGIN TO ROAM </h3>
 
@@ -206,9 +206,9 @@ function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoint
                     )}
 
                     <p style={{ marginTop: '.5em' }}> <a style={linkStyle} href="/create-account"> Don't have a profile? </a> </p>
-                </div>
+                </section>
             ) : (
-                <div>
+                <section>
                     <h3> WELCOME TO ROAM, {userData.name.toUpperCase()}</h3>
                     <br />
                     <p>Whether you are tracking the places you've visited or planning a future vacation, Roam has you covered.</p>
@@ -217,7 +217,7 @@ function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoint
                         <input style={StyledButton} type="submit" value="SIGN OUT" onClick={clearUser} />
                         <input style={StyledButton} type="submit" value="CLOSE TAB" onClick={close} />
                     </div>
-                </div>
+                </section>
             )}
 
 

@@ -53,7 +53,7 @@ const round = (val) => {
 const Wishlist = ({openVal, closeVal, openVal2, closeVal2, wishlist, setNote, deleteLocation}) => {
     return (
         <LargePopup open={openVal} close={closeVal2}>
-        <div style={boxStyle}>
+        <section style={boxStyle}>
           <div style={headerStyle}>
             <div style={{display:"flex", flexDirection:"row", marginLeft:"10rem"}}>
             <AiFillHeart/> 
@@ -64,7 +64,7 @@ const Wishlist = ({openVal, closeVal, openVal2, closeVal2, wishlist, setNote, de
           {wishlist.length > 0 ? wishlist.map((val) => (
             <Item date={val.date} city={val.city} country={val.country} note={val.note} lat={round(val.lat)} long={round(val.lng)}  history_id={val.history_id} setNote={setNote} deleteLocation={deleteLocation}/>
           )) : <em style={description}>You have no cities in your wishlist. Add a city using the "Add Location" button in the upper right.</em>}
-        </div>
+        </section>
       </LargePopup>
     )
 }
