@@ -5,13 +5,6 @@ import { FaEdit } from "react-icons/fa";
 import Note from "./note";
 import Popup from "./Popup";
 
-
-
-
-const handleSaveNote = (noteData) => {
-
-    console.log('Note data:', noteData);
-};
 const itemStyle = {
     paddingLeft: '30px',
     paddingRight: '30px',
@@ -75,7 +68,7 @@ const Item = ({ date, city, country, note, lat, long, history_id, setNote, delet
             {isPopupOpen && (
                 <Popup size="500px" open={isPopupOpen} close={handleClickButton} >
                     NOTE
-                    <Note onSave={handleSaveNote} history_id={history_id} setNote={setNote} />
+                    <Note history_id={history_id} setNote={setNote} />
                 </Popup>
             )}
         </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { EditHistory } from "../utils/api";
 
-function Note({history_id, close, onSave, setNote }) {
+function Note({history_id, setNote }) {
   const [text, setText] = useState('');
   
   const overallStyle = {
