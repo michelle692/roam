@@ -1,6 +1,5 @@
 import { PiUserCircleThin } from "react-icons/pi";
 import styled from 'styled-components';
-import Button from "./Button";
 
 const StyledButton = styled.button`
     position: absolute;
@@ -8,6 +7,7 @@ const StyledButton = styled.button`
     right: 40px;
     padding: 0;
     padding-top: .25em;
+    margin: 0.5rem;
     border-radius: 100%;
     border: 1px solid rgba(255, 255, 255, 0.35);
     width: 2rem;

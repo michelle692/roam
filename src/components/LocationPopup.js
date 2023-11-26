@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import "@fontsource/overpass-mono";
 import { BsGlobe2 } from 'react-icons/bs'
+
+import { Search } from "../utils/api";
+import Suggestion from '../components/Suggestion';
 
 const popupStyle = {
     overlay: {
@@ -13,7 +16,7 @@ const popupStyle = {
         width: '30%',
         height: '50%',
         minWidth: '450px',
-        minHeight: '360px',
+        minHeight: '550px',
         backdropFilter: 'blur(6px)',
     },
     content: {
@@ -38,22 +41,6 @@ const ExitButton = styled.button`
         background: rgba(255, 255, 255, 0.75);
     }
 `
-const StyledButton = styled.button`
-    background: rgba(255, 255, 255, 0.45);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    color: rgba(0, 0, 0, 1);
-    display: inline-block;
-    margin: 0.5rem 1rem;
-    padding: 0.75rem 0;
-    transition: all 200ms ease-in-out;
-    width: 10rem;
-    text-align: center;
-    font-family: "Overpass Mono";
-
-    &:hover {
-        background: rgba(255, 255, 255, 0.75);
-    }
-`
 
 const locationInput = {
     marginBottom: "30px",
@@ -74,30 +61,60 @@ const descriptionStyle = {
     fontWeight: "normal",
     marginBottom: "40px"
 }
+const textStyle = {
+    fontFamily: "Overpass Mono",
+    fontSize: "14px"
+}
 
-const LocationPopup = ({children, open, close, onChange, submit, type}) => {
+const LocationPopup = ({ children, open, close, locInput, onChange, submit}) => {
+
+    //Suggests location options based on input
+    const [suggestions, setSuggestions] = useState([]);
+    const test = [1, 1, 1];
+
+    function suggestLocation(locInput) {
+        console.log(locInput);
+        Search(locInput).then((searchData) => {
+            const predictions = searchData["predictions"];
+            console.log(predictions);
+            setSuggestions(predictions);
+        });
+    }
+
+    //Updates options as you type
+    useEffect(()=>{
+        suggestLocation(locInput);
+    }, [locInput]);
+
     return (
-        <Modal isOpen={open}  backdrop="static" style={popupStyle}>
+        <Modal isOpen={open} backdrop="static" style={popupStyle}>
             <div style={divStyle}>
-            <div style={{display:"flex", flexDirection:"row"}}>
-            <BsGlobe2/>
-            <span>&nbsp;{children}</span>
-            </div>
-            <p style={descriptionStyle}>LOG YOUR TRAVEL AND ROAM THE WORLD WITH US</p>
-            <ExitButton onClick={close}>X</ExitButton>
-            <input style={locationInput} onChange={onChange} placeholder="SEARCH FOR CITY"/>
-            <style>
-            {` 
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                    <BsGlobe2 />
+                    <span>&nbsp;{children}</span>
+                </div>
+                <p style={descriptionStyle}>LOG YOUR TRAVEL AND ROAM THE WORLD WITH US</p>
+                <ExitButton onClick={close}>X</ExitButton>
+                <input style={locationInput} value={locInput} onChange={onChange} placeholder="SEARCH FOR CITY" />
+                <style>
+                    {` 
                     ::placeholder { 
                         color: black; 
                     }
                     textarea:focus, input:focus{
                         outline: none;
                     }
-                    ` 
-                } 
-            </style>
-            <StyledButton onClick={submit}>{type}</StyledButton>
+                    `
+                    }
+                </style>
+
+                {suggestions.length > 0 ? 
+                (suggestions.map((val) => (<Suggestion val={val} submit={submit}/>))) : 
+                locInput === "" ? (
+                    <p style={textStyle}><i>Start typing to see suggested locations...</i></p>
+                ) : (
+                    <p style={textStyle}><i>No locations found.</i></p>
+                )}
             </div>
         </Modal>
     )

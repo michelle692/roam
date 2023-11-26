@@ -1,10 +1,8 @@
-
 import React, { useState } from 'react';
-import { IoMdCheckbox } from 'react-icons/io';
 
 import { EditHistory } from "../utils/api";
 
-function Note({history_id, close, onSave, city, setNote }) {
+function Note({history_id, close, onSave, setNote }) {
   const [text, setText] = useState('');
   
   const overallStyle = {
@@ -34,7 +32,7 @@ function Note({history_id, close, onSave, city, setNote }) {
 
   const handleSave = () => {
     EditHistory(history_id, text);
-    setNote(city, text);
+    setNote(history_id, text);
   };
 
   return (

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import styled, {css} from 'styled-components';
-import {BsFillPencilFill} from "react-icons/bs";
+import styled from 'styled-components';
+import { MdDelete } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
 import Note from "./note";
 import Popup from "./Popup";
 
@@ -39,9 +40,6 @@ const noteStyle = {
     marginBottom: '15px'
 }
 const StyledButton = styled.button`
-    position: absolute;
-    right: 10px;
-    top: 10px;
     background: none;
     border: none;
     color: rgba(255, 255, 255, 1);
@@ -51,27 +49,37 @@ const StyledButton = styled.button`
         filter: brightness(0.75);
     }
 `
+const buttonHolder = {
+    position: "absolute",
+    display: "flex",
+    gap: "10px",
+    right: "10px",
+    top: "10px"
+}
 
-const Item = ({date, city, country, note, lat, long, history_id, setNote}) => {
+const Item = ({ date, city, country, note, lat, long, history_id, setNote, deleteLocation }) => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const handleClickButton = () => {
         setIsPopupOpen(!isPopupOpen);
-      };
+    };
     return (
-        
+
         <div style={itemStyle}>
             <p style={titleStyle}>{date} | {city}, {country}  |  {lat}, {long}</p>
             <p style={noteStyle}>{note}</p>
-            <StyledButton style={{display:"flex", alignItems:"center"}} onClick={handleClickButton}><BsFillPencilFill/></StyledButton>
+            <div style={buttonHolder}>
+                <StyledButton style={{ display: "flex", alignItems: "center" }} onClick={() => { deleteLocation(history_id) }}><MdDelete /></StyledButton>
+                <StyledButton style={{ display: "flex", alignItems: "center" }} onClick={handleClickButton}><FaEdit /></StyledButton>
+            </div>
 
-      {isPopupOpen && (
-        <Popup size="500px" open={isPopupOpen} close={handleClickButton} >
-          NOTE
-          <Note onSave={handleSaveNote} history_id={history_id} setNote={setNote} city={city}/>
-        </Popup>
-      )}
-                 </div>
-        
+            {isPopupOpen && (
+                <Popup size="500px" open={isPopupOpen} close={handleClickButton} >
+                    NOTE
+                    <Note onSave={handleSaveNote} history_id={history_id} setNote={setNote} />
+                </Popup>
+            )}
+        </div>
+
     )
 }
 export default Item;

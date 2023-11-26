@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
 
 const popupStyle = {
     overlay: {
