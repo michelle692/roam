@@ -30,7 +30,7 @@ function Home() {
     };
 
     //Set user-specific data based on local storage, if present, or an empty value if not
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || []);
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || emptyUser);
     const [citiesVisited, setCitiesVisited] = useState(JSON.parse(localStorage.getItem("citiesVisited")) || []);
     const [wishlist, setWishlist] = useState(JSON.parse(localStorage.getItem("wishlist")) || []);
     const [cityCount, setCityCount] = useState(localStorage.getItem("cityCount") || 0);

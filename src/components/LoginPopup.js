@@ -209,6 +209,7 @@ function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoint
                 </section>
             ) : (
                 <section>
+
                     <h3> WELCOME TO ROAM, {userData.name.toUpperCase()}</h3>
                     <br />
                     <p>Whether you are tracking the places you've visited or planning a future vacation, Roam has you covered.</p>
