@@ -1,10 +1,9 @@
 import { LoginAccount, GetHistory, GetWishlist } from "../utils/api";
 import Modal from 'react-modal';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import "@fontsource/overpass-mono";
 import "@fontsource/karla"
 import { useState } from "react";
-import { useNavigate } from "react-router";
 
 const popupStyle = {
     overlay: {
@@ -12,10 +11,9 @@ const popupStyle = {
         background: 'rgba(219, 220, 255, 0.9)',
         border: '3px solid rgba(255, 255, 255, 0.80)',
         textAlign: 'center',
-        width: '30%',
-        height: '50%',
-        minWidth: '450px',
+        width: '450px',
         minHeight: '360px',
+        maxHeight: '550px',
         backdropFilter: 'blur(6px)',
     },
     content: {
@@ -85,23 +83,43 @@ const messageStyle = {
     fontSize: '16px'
 }
 
-function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoints, setWishlist }) {
-    const navigate = useNavigate();
+const buttonHolder = {
+    display: "flex",
+    gap: "20px"
+}
 
+function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoints, setWishlist, clearUser, userData }) {
+
+    //Hooks for storing login input fields
     const [user, setUsername] = useState('');
     const [pass, setPassword] = useState('');
+    function handleUserChange(event) {
+        setUsername(event.target.value);
+    }
+    function handlePasswordChange(event) {
+        setPassword(event.target.value);
+    }
+
+    //Message depending on result of login attempt
     const [message, setMessage] = useState('');
 
+    //Checker to make sure fields are nonempty
     function present(val) {
         return val !== "";
     }
 
+    //Handles login
     function handleSubmit() {
+
+        //Checks for username and password present
         if (present(user) && present(pass)) {
+
+            //API call to database to check for user
             LoginAccount(user, pass).then((result) => {
-                console.log(result);
                 if (result.error === undefined) {
-                    setMessage("logged in.");
+                    setMessage("");
+
+                    //Updates user hook with user data
                     const newUser = {
                         name: result.name,
                         username: user,
@@ -109,6 +127,8 @@ function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoint
                         userID: result._id.$oid
                     }
                     setUser(newUser);
+
+                    //Loads user's city visited through API call
                     GetHistory(newUser.userID).then((result2) => {
                         const updatedCitiesVisited = result2.map((val) => {
                             const newCity = {
@@ -118,6 +138,7 @@ function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoint
                                 note: val.notes,
                                 lat: val.lat,
                                 lng: val.lng,
+                                place_id: val.place_id,
                                 history_id: val._id.$oid
                             }
                             return newCity;
@@ -125,6 +146,8 @@ function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoint
                         setCitiesVisited(updatedCitiesVisited);
                         setPoints(updatedCitiesVisited);
                     });
+
+                    //Loads user's wishlist through API call
                     GetWishlist(newUser.userID).then((result2) => {
                         const updatedWishlist = result2.map((val) => {
                             const newCity = {
@@ -140,22 +163,17 @@ function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoint
                         });
                         setWishlist(updatedWishlist);
                     });
-                    close();
+                    setUsername("");
+                    setPassword("");
                 } else {
+                    //Throws error if API call fails
                     setMessage(result.error);
                 }
             });
         } else {
+            //Error message if user does not fill in all fields
             setMessage("please fill in all fields.")
         }
-    }
-
-    function handleUserChange(event) {
-        setUsername(event.target.value);
-    }
-
-    function handlePasswordChange(event) {
-        setPassword(event.target.value);
     }
 
     return (
@@ -171,21 +189,37 @@ function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoint
                 `
                 }
             </style>
-            <div>
-                <h3> LOGIN TO ACCESS MORE FEATURES </h3>
+            {userData.username === "" ? (
+                <section>
 
-                <input autocomplete="off" style={CustomInput} type="text" placeholder="USERNAME" id="username" value={user} onChange={handleUserChange} />
-                <input autocomplete="off" style={CustomInput} type="text" placeholder="PASSWORD" id="password" value={pass} onChange={handlePasswordChange} />
+                    <h3> LOGIN TO ROAM </h3>
 
-                <input style={StyledButton} type="submit" value="SIGN IN" onClick={handleSubmit} />
-                {message === undefined ? (
-                    <></>
-                ) : (
-                    <p style={messageStyle}>{message}</p>
-                )}
+                    <input autocomplete="off" style={CustomInput} type="text" placeholder="USERNAME" id="username" value={user} onChange={handleUserChange} />
+                    <input autocomplete="off" style={CustomInput} type="text" placeholder="PASSWORD" id="password" value={pass} onChange={handlePasswordChange} />
 
-                <p style={{ marginTop: '.5em' }}> <a style={linkStyle} onClick={() => navigate('/create-account')}> Don't have a profile? </a> </p>
-            </div>
+                    <input style={StyledButton} type="submit" value="SIGN IN" onClick={handleSubmit} />
+
+                    {message === undefined ? (
+                        <></>
+                    ) : (
+                        <p style={messageStyle}>{message}</p>
+                    )}
+
+                    <p style={{ marginTop: '.5em' }}> <a style={linkStyle} href="/create-account"> Don't have a profile? </a> </p>
+                </section>
+            ) : (
+                <section>
+                    <h3> WELCOME TO ROAM, {userData.name.toUpperCase()}</h3>
+                    <br />
+                    <p>Whether you are tracking the places you've visited or planning a future vacation, Roam has you covered.</p>
+                    <br />
+                    <div style={buttonHolder}>
+                        <input style={StyledButton} type="submit" value="SIGN OUT" onClick={clearUser} />
+                        <input style={StyledButton} type="submit" value="CLOSE TAB" onClick={close} />
+                    </div>
+                </section>
+            )}
+
 
             <ExitButton onClick={close}> X </ExitButton>
         </Modal>

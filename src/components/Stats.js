@@ -15,6 +15,7 @@ const StatsStyle = {
     right: "50px",
     bottom: "50px",
     color: "rgba(255, 255, 255, 0.7)",
+    margin: "0.5rem"
 }
 const ExitButton = styled.button`
     margin-left: auto;
@@ -46,19 +47,18 @@ const ExitButton2 = styled.button`
     }
 `
 
-const Stats = ({cityCount, stateCount, countryCount, continentCount, visible, open}) => {
+const Stats = ({cityCount, stateCount, countryCount, visible, open}) => {
     return (
-        <div>
+        <section>
         {visible ? 
         <div style={StatsStyle}>
             <ExitButton onClick={open} style={{display:"flex", alignItems:"center"}}><AiFillStar/></ExitButton>
             <span>CITIES VISITED: {cityCount}</span>
             <span>STATES VISITED: {stateCount}</span>
             <span>COUNTRIES VISITED: {countryCount}</span>
-            <span>CONTINENTS VISITED: {continentCount}</span>
         </div>
         : <ExitButton2 onClick={open} style={{display:"flex", alignItems:"center"}}><AiFillStar/></ExitButton2>}
-        </div>
+        </section>
     )
 }
 export default Stats;

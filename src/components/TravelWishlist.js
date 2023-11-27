@@ -1,6 +1,5 @@
 import LargePopup from './LargePopup.js';
 import { React } from "react";
-import Button from './Button.js';
 import Item from './Item.js';
 import styled, { css } from 'styled-components';
 import "@fontsource/overpass-mono";
@@ -51,10 +50,10 @@ const round = (val) => {
   return Math.round(val*100)/100;
 }
 
-const Wishlist = ({openVal, closeVal, openVal2, closeVal2, wishlist, setNote}) => {
+const Wishlist = ({openVal, closeVal, openVal2, closeVal2, wishlist, setNote, deleteLocation}) => {
     return (
         <LargePopup open={openVal} close={closeVal2}>
-        <div style={boxStyle}>
+        <section style={boxStyle}>
           <div style={headerStyle}>
             <div style={{display:"flex", flexDirection:"row", marginLeft:"10rem"}}>
             <AiFillHeart/> 
@@ -63,9 +62,9 @@ const Wishlist = ({openVal, closeVal, openVal2, closeVal2, wishlist, setNote}) =
           <StyledButton val={openVal2} onClick={closeVal} offset={'1vh'}>ADD LOCATION</StyledButton>
           </div>
           {wishlist.length > 0 ? wishlist.map((val) => (
-            <Item date={val.date} city={val.city} country={val.country} note={val.note} lat={round(val.lat)} long={round(val.lng)}  history_id={val.history_id} setNote={setNote}/>
+            <Item date={val.date} city={val.city} country={val.country} note={val.note} lat={round(val.lat)} long={round(val.lng)}  history_id={val.history_id} setNote={setNote} deleteLocation={deleteLocation}/>
           )) : <em style={description}>You have no cities in your wishlist. Add a city using the "Add Location" button in the upper right.</em>}
-        </div>
+        </section>
       </LargePopup>
     )
 }

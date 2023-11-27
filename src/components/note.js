@@ -1,60 +1,58 @@
-
 import React, { useState } from 'react';
-import { IoMdCheckbox } from 'react-icons/io';
-
+import styled from 'styled-components';
 import { EditHistory } from "../utils/api";
 
-function Note({history_id, close, onSave, city, setNote }) {
-  const [text, setText] = useState('');
-  
-  const overallStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center', 
-  }
-  const buttonStyle = {
-    background: 'rgba(217, 217, 217, 0.25)',
-    border: '1px solid rgba(0, 0, 0, 1)',
-    width: '12rem', 
-    padding: '0.75rem 0',
-    color: 'black', 
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontFamily: 'Overpass Mono',
-    fontSize: '15px',
-    fontWeight: 'normal',
-    margin: '10px',
-    marginBottom: '15px'
-  };
+const overallStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '20px',
+  marginTop: "20px",
+  width: "100%"
+}
 
-  const textAreaStyle = {
-    marginTop: "20px"
-  }
+const StyledButton = styled.button`
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: rgba(0, 0, 0, 1);
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 0.75rem 0;
+    transition: all 200ms ease-in-out;
+    width: 100%;
+    text-align: center;
+    font-family: "Overpass Mono";
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.75);
+    }
+`
+
+const textAreaStyle = {
+  width: "100%"
+}
+
+function Note({ history_id, setNote }) {
+
+  //Managing input field and saving any edits
+  const [text, setText] = useState('');
 
   const handleSave = () => {
     EditHistory(history_id, text);
-    setNote(city, text);
+    setNote(history_id, text);
   };
 
   return (
-    
-    <div className="note-box">
-      <textarea 
+    <div style={overallStyle}>
+      <textarea
         value={text}
-        
         onChange={(e) => setText(e.target.value)}
         rows="8"
-        cols="40" 
-        placeholder="Enter your note"
+        placeholder="Enter your new note..."
         style={textAreaStyle}
-        />
-        
-      <div>
-        
-      </div>
-      <div justifyContent='center' style={overallStyle}><button onClick={handleSave} style = {buttonStyle} >    Save</button></div>
-      
+      />
+      <StyledButton onClick={handleSave}>Save</StyledButton>
     </div>
   );
 }

@@ -36,7 +36,7 @@
   align-items: center;
   width: 100vw;
   height: 100vh;
-
+  overflow: hidden;
   gap: 5em;
 }
 
@@ -45,7 +45,11 @@
   background-color: rgba(139, 116, 176, 0.45);
   height: 75%;
   padding: 1em 2em;
-  width: 95%;
+  width: 100%;
+}
+
+.container {
+  padding: 50px;
 }
 
 .info-columns {

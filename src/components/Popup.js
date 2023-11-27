@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
 
 const popupStyle = {
     overlay: {
@@ -8,12 +8,10 @@ const popupStyle = {
         background: 'rgba(255, 255, 255, 0.5)',
         border: '3px solid rgba(249, 249, 249, 0.78)',
         textAlign: 'center',
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
         width: '40%',
-        height: '50%',
-        transform: 'translate(-60%, -50%)',
+        height: '60%',
+        maxWidth: "600px",
+        maxHeight: "600px",
         backdropFilter: 'blur(6px)',
     },
     content: {

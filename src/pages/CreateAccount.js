@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import "../css/App.css"
 
 import Earth from '../static/earth.png'
-import { CreateAccount, Search } from "../utils/api";
+import { CreateAccount } from "../utils/api";
 import { useNavigate } from "react-router";
 
+//JSX styles
 const PageStyle = {
     fontFamily: "Overpass Mono",
     color: "white",
@@ -57,6 +58,11 @@ const SubmitButton = {
     fontSize: '16px'
 }
 
+const buttonHolder = {
+    display: "flex",
+    gap: "20px"
+}
+
 const messageStyle = {
     whiteSpace: "pre-wrap"
 }
@@ -64,11 +70,28 @@ const messageStyle = {
 function CreateAccountPage() {
     const navigate = useNavigate();
 
-    const [name, setName] = useState('')
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    //Hooks for managing input field values
+    const [name, setName] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    //Functions for updating hooks based on input field
+    function handleNameChange(event) {
+        setName(event.target.value)
+    }
+
+    function handleUserChange(event) {
+        setUsername(event.target.value)
+    }
+
+    function handlePasswordChange(event) {
+        setPassword(event.target.value)
+    }
+
+    //User message based on account creation result
     const [message, setMessage] = useState('');
 
+    //Checkers for validating inputs
     const validUsername = (user) => {
         return user.length >= 4;
     }
@@ -81,7 +104,10 @@ function CreateAccountPage() {
         return name !== "";
     }
 
+    //Create account function
     function handleSubmit() {
+
+        //Return error message for incorrect input fields
         let mess = "";
         if (!validName(name)) {
             mess = "please enter valid name.";
@@ -92,6 +118,8 @@ function CreateAccountPage() {
         if (!validPassword(password)) {
             mess += (mess === "" ? "" : "\n") + "please enter valid password (at least 6 characters).";
         }
+
+        //Create account using API call to backend
         if (validName(name) && validUsername(username) && validPassword(password)) {
             CreateAccount(username, password, name).then((result) => {
                 console.log(result);
@@ -111,24 +139,13 @@ function CreateAccountPage() {
 
     }
 
-    function handleNameChange(event) {
-        setName(event.target.value)
-    }
-
-    function handleUserChange(event) {
-        setUsername(event.target.value)
-    }
-
-    function handlePasswordChange(event) {
-        setPassword(event.target.value)
-    }
-
+    //Navigate back to home page
     function handleReturn() {
         navigate("/");
     }
 
     return (
-        <div style={PageStyle}>
+        <main style={PageStyle}>
             <style>
                 {` 
                 ::placeholder { 
@@ -141,26 +158,28 @@ function CreateAccountPage() {
                 }
             </style>
             <img src={Earth} className="earth" />
-            <div style={Transparent}>
+            <section style={Transparent}>
                 <h3 style={{ fontSize: '40px', marginBottom: '0' }} > CREATE A PROFILE </h3>
-                <p style={{ fontSize: '16px', marginBottom: '4em' }} > START LOGGING YOUR TRAVELS </p>
+                <p style={{ fontSize: '16px', marginBottom: '3em' }} > START LOGGING YOUR TRAVELS </p>
 
                 <input autocomplete="off" style={CustomInput} type="text" placeholder="FIRST NAME" id="name" value={name} onChange={handleNameChange} />
                 <input autocomplete="off" style={CustomInput} type="text" placeholder="USERNAME" id="username" value={username} onChange={handleUserChange} />
                 <input autocomplete="off" style={CustomInput} type="text" placeholder="PASSWORD" id="password" value={password} onChange={handlePasswordChange} />
 
+                <div style={buttonHolder}>
                 <input style={SubmitButton} type="submit" value="CREATE PROFILE" onClick={handleSubmit} />
+                <input style={SubmitButton} type="submit" value="RETURN HOME" onClick={handleReturn} />
+                </div>
 
                 {message === undefined ? (
                     <></>
                 ) : (
                     <p style={messageStyle}>{message}</p>
                 )}
-                <input style={SubmitButton} type="submit" value="RETURN HOME" onClick={handleReturn} />
-            </div>
-        </div>
+                
+            </section>
+        </main>
     )
 }
-
 
 export default CreateAccountPage;
