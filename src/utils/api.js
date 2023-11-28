@@ -127,6 +127,6 @@ export const RemoveWishlist = function(history_id) {
 }
 
 export const GetRanking = function() {
-    const request = url + 'ranks/get?';
+    const request = url + '/ranks/get?';
     return call(fetch(request));
 }
