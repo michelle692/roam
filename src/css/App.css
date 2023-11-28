@@ -1,0 +1,74 @@
+.App {
+  text-align: center;
+}
+
+.Title {
+  position: absolute;
+  padding: 0px;
+  margin: 0px;
+  left: 40px;
+  top: 30px;
+  font-weight: bold;
+  font-size: 40px;
+  color: white;
+  font-family: "Overpass Mono";
+  text-decoration: none;
+  z-index: 2;
+}
+
+.Title:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.background {
+  background: linear-gradient(135deg, #434C95, #9578B3);
+  height: 100vh;
+  width: 100vw;
+}
+
+.info-div {
+  font-family: "Overpass Mono";
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  gap: 5em;
+}
+
+.transparent {
+  backdrop-filter: blur(5px);
+  background-color: rgba(139, 116, 176, 0.45);
+  height: 75%;
+  padding: 1em 2em;
+  width: 100%;
+}
+
+.container {
+  padding: 50px;
+}
+
+.info-columns {
+  display: flex;
+  margin-top: 2em;
+  gap: 2em;
+  height: 60%;
+}
+
+.info-column {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+.earth {
+  height: 120vh;
+  width: auto;
+  position: fixed;
+  z-index: 0;
+  left: 55vw;
+}

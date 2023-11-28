@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+# Roam: A Travel App
+## Project Description
+Log your travel experiences on an interactive globe that you can rotate, zoom, and click on to see the places you have traveled to. After completing a trip, mark your memories on the globe by clicking "Add Location" and then searching for the city you visited. Add notes to remember your journey! You can also plan your future adventures using our wishlist feature. Add notes of landmarks you plan to visit or sights you plan to see when you go on the trip of your dreams.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p float="left">
+<img src="public/screen1.png" width="90%" />
+</p>
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### The 3D Globe: Your Digital Travel Log
 
-### `npm start`
+Roam uses the Google Maps Geocoding API to generate location predictions based on user input. By selecting a location, you can automatically pin a place you have visited onto a rotating, interactive globe that lets you better visualize your journeys.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Clicking on a pin will provide you with more information including the location of choice, the date you visited, and any notes you took about your travels.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<p float="left">
+<img src="public/screen2.png" width="43.2%" /> 
+<img src="public/screen10.png" width="45%" /> 
+</p>
 
-### `npm test`
+### Cities Visited and the Travel Wishlist
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+You can view your travel history as a list with additional functionality. In list view, you can see the latitude and longitude of the location, edit your existing notes or take new notes, and delete places from your log book. 
 
-### `npm run build`
+You can also toggle views between the cities you've visited and a wishlist of cities you want to visit in the future, allowing you to plan your future travels within Roam.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<p float="left">
+  <img src="public/screen3.png" width="45%" />
+  <img src="public/screen4.png" width="45%" /> 
+</p>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Integrating Cloud and Local Storage
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+When you first join Roam, you will need to create a free account. This allows us to store your user information including your cities visited, wishlist, notes taken, and more in our MongoDB database so you can access your data from any device. Your data will also be saved to local storage allowing for data to persist between sessions.
 
-### `npm run eject`
+<p float="left">
+  <img src="public/screen8.png" width="45%" />
+  <img src="public/screen7.png" width="45%" /> 
+</p>
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Technologies Used
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Frontend
+- React
+- Javascript
+- HTML
+- CSS
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Backend
+- Python
+- Flask
+- MongoDB
+- Google Maps Geocoding API
+- Vercel
 
-## Learn More
+## How to Use
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Install dependencies
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm install
+```
 
-### Code Splitting
+### Run the development server
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+npm start
+```

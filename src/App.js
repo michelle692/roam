@@ -1,23 +1,25 @@
-import React,  { useState } from 'react';
-import Globe from 'react-globe.gl';
-import './App.css';
+import React from 'react';
+import './css/App.css';
+import './css/index.css';
+
+import Home from './pages/Home';
+import Information from './pages/Information'
+import CreateAccountPage from "./pages/CreateAccount";
+
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
-  const [atmosphere, setAtmosphere] = useState(0.3);
 
-  const increaseAtmosphere = (lat, long, event) => {
-    setAtmosphere(atmosphere + 0.05);
-  }
-
-  
   return (
-    <Globe
-      globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
-
-      atmosphereAltitude={atmosphere.toString()}
-
-      onGlobeClick = {(increaseAtmosphere)}
-    />
+    <Router>
+      <div className='background'>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/information" element={<Information />} />
+          <Route path="/create-account" element={<CreateAccountPage />} />
+        </Routes>
+      </div>
+    </Router>  
   );
 }
 
