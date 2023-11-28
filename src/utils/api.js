@@ -78,8 +78,8 @@ export const LoginAccount = function (username, password) {
  Functionality for manipulating history
  */
 
-export const AddHistory = function(user_id, city, place_id, notes, country, date, lat, lng) {
-    const request = url + '/histories/add?user_id=' + user_id + "&city=" + city + "&place_id=" + place_id + "&notes=" + notes + "&country=" + country + "&date=" + date + "&lat=" + lat + "&lng=" + lng;
+export const AddHistory = function(user_id, city, place_id, notes, country, usstate, date, lat, lng) {
+    const request = url + '/histories/add?user_id=' + user_id + "&city=" + city + "&place_id=" + place_id + "&notes=" + notes + "&country=" + country + "&usstate=" + usstate + "&date=" + date + "&lat=" + lat + "&lng=" + lng;
     return call(fetch(request));
 }
 
@@ -104,24 +104,29 @@ export const RemoveHistory = function(history_id){
  Functionality for manipulating wishlist
  */
 
-export const AddWishlist = function(user_id, city, place_id, notes, country, date, lat, lng) {
-    const request = url + '/wishlists/add?user_id=' + user_id + "&city=" + city + "&place_id=" + place_id + "&notes=" + notes + "&country=" + country + "&date=" + date + "&lat=" + lat + "&lng=" + lng;
+export const AddWishlist = function(user_id, city, place_id, notes, country, usstate, date, lat, lng) {
+    const request = url + '/wishlists/add?user_id=' + user_id + "&city=" + city + "&place_id=" + place_id + "&notes=" + notes + "&country=" + country + "&usstate=" + usstate + "&date=" + date + "&lat=" + lat + "&lng=" + lng;
     return call(fetch(request));
 }
 
-export const GetWishlist = function (user_id){
+export const GetWishlist = function (user_id) {
     const request = url + '/wishlists/get?user_id=' + user_id;
     return call(fetch(request));
 }
 
-export const EditWishlist = function(history_id, notes){
+export const EditWishlist = function(history_id, notes) {
     console.log(history_id);
     console.log(notes);
     const request = url + '/wishlists/edit?history_id=' + history_id + '&notes=' + notes;
     return call(fetch(request));
 }
 
-export const RemoveWishlist = function(history_id){
+export const RemoveWishlist = function(history_id) {
     const request = url + '/wishlists/remove?history_id=' + history_id;
     return call(fetch(request)); 
+}
+
+export const GetRanking = function() {
+    const request = url + 'ranks/get?';
+    return call(fetch(request));
 }
