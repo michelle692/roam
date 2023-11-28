@@ -73,10 +73,8 @@ const LocationPopup = ({ children, open, close, locInput, onChange, submit}) => 
     const test = [1, 1, 1];
 
     function suggestLocation(locInput) {
-        console.log(locInput);
         Search(locInput).then((searchData) => {
             const predictions = searchData["predictions"];
-            console.log(predictions);
             setSuggestions(predictions);
         });
     }

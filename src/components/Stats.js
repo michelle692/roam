@@ -54,7 +54,7 @@ const Stats = ({cityCount, stateCount, countryCount, visible, open}) => {
         <div style={StatsStyle}>
             <ExitButton onClick={open} style={{display:"flex", alignItems:"center"}}><AiFillStar/></ExitButton>
             <span>CITIES VISITED: {cityCount}</span>
-            <span>STATES VISITED: {stateCount}</span>
+            <span> US STATES VISITED: {stateCount}</span>
             <span>COUNTRIES VISITED: {countryCount}</span>
         </div>
         : <ExitButton2 onClick={open} style={{display:"flex", alignItems:"center"}}><AiFillStar/></ExitButton2>}

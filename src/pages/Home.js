@@ -15,6 +15,7 @@ import Wishlist from '../components/TravelWishlist.js';
 import History from '../components/TravelHistory.js';
 import Info from '../components/Info.js';
 import Stats from '../components/Stats.js';
+import Rankings from '../components/Rankings.js';
 import LoginPopup from '../components/LoginPopup.js'
 import UserButton from '../components/UserButton'
 
@@ -71,6 +72,7 @@ function Home() {
                     date: val.date,
                     city: val.city,
                     country: val.country,
+                    usstate: val.usstate,
                     note: note,
                     lat: val.lat,
                     lng: val.lng,
@@ -91,6 +93,7 @@ function Home() {
                     date: val.date,
                     city: val.city,
                     country: val.country,
+                    usstate: val.usstate,
                     note: note,
                     lat: val.lat,
                     lng: val.lng,
@@ -131,23 +134,16 @@ function Home() {
     //Place names obtained by checking API for values not stored with location data
     function updateCount(arr) {
         let countries = new Set();
-        let states = new Set();
+        let usstates = new Set();
+        // console.log(arr)
         arr.forEach((val) => {
             countries.add(val.country);
-            if (val.country === "United States") {
-                GetInfo(val.place_id).then((place_json) => {
-                    let place = place_json["results"][0];
-                    for (let i = 0; i < place["address_components"].length; i++) {
-                        if (place["address_components"][i]["types"].includes("administrative_area_level_1")) {
-                            states.add(place["address_components"][i]["long_name"]);
-                            setStateCount(states.size);
-                            break;
-                        }
-                    }
-                });
-            }
+            if (val.usstate !== 'US State Not Found') {
+                usstates.add(val.usstate);
+            } 
         });
         setCityCount(arr.length);
+        setStateCount(usstates.size);
         setCountryCount(countries.size);
     }
 
@@ -256,7 +252,7 @@ function Home() {
     //Logic for handling location submit
     const handleLocSubmit = (place_id) => {
         GetInfo(place_id).then((place_json) => {
-
+            
             //Results for identified place
             let place = place_json["results"][0];
             let lat = place["geometry"]["location"]["lat"];
@@ -272,11 +268,22 @@ function Home() {
                 }
             }
 
+            let usstate = "US State Not Found"
+            if (country === "United States") {
+                for (let i = 0; i < place["address_components"].length; i++) {
+                    if (place["address_components"][i]["types"].includes("administrative_area_level_1")) {
+                        usstate = place["address_components"][i]["long_name"];
+                        break;
+                    }
+                }
+            }
+
             //JSON data to be sent to database
             const newCity = {
                 date: handleDate(new Date()),
                 city: city,
                 country: country,
+                usstate: usstate,
                 note: "Note Goes Here",
                 lat: lat,
                 lng: lng
@@ -287,31 +294,35 @@ function Home() {
 
                 //Which database to send to (citiesVisited if true, wishlist if false)
                 if (display) {
-                    AddHistory(user.userID, newCity.city, place_id, newCity.note, newCity.country, newCity.date, newCity.lat, newCity.lng).then((result) => {
+                    AddHistory(user.userID, newCity.city, place_id, newCity.note, newCity.country, newCity.usstate, newCity.date, newCity.lat, newCity.lng).then((result) => {
+                        if (result.error === 'location already added.') {
+                            console.log(result.error)
+                        } else {
+                            //If successfully connected, get MongoDB-generated history_id for new JSON
+                            if (result.error === undefined) {
+                                const updatedCity = {
+                                    date: newCity.date,
+                                    city: newCity.city,
+                                    country: newCity.country,
+                                    usstate: newCity.usstate,
+                                    note: newCity.note,
+                                    lat: newCity.lat,
+                                    lng: newCity.lng,
+                                    history_id: result._id.$oid,
+                                    place_id: result.place_id
+                                }
 
-                        //If successfully connected, get MongoDB-generated history_id for new JSON
-                        if (result.error === undefined) {
-                            const updatedCity = {
-                                date: newCity.date,
-                                city: newCity.city,
-                                country: newCity.country,
-                                note: newCity.note,
-                                lat: newCity.lat,
-                                lng: newCity.lng,
-                                history_id: result._id.$oid,
-                                place_id: result.place_id
+                                //Update cities with new JSON, toggle view to citiesVisited and update count
+                                const updatedCities = [...citiesVisited, updatedCity];
+                                setCitiesVisited(updatedCities);
+                                displayVisited();
+                                setPoints(updatedCities);
+                                updateCount(updatedCities);
                             }
-
-                            //Update cities with new JSON, toggle view to citiesVisited and update count
-                            const updatedCities = [...citiesVisited, updatedCity];
-                            setCitiesVisited(updatedCities);
-                            displayVisited();
-                            setPoints(updatedCities);
-                            updateCount(updatedCities);
-                        }
+                        }    
                     });
                 } else {
-                    AddWishlist(user.userID, newCity.city, place_id, newCity.note, newCity.country, newCity.date, newCity.lat, newCity.lng).then((result) => {
+                    AddWishlist(user.userID, newCity.city, place_id, newCity.note, newCity.country, newCity.usstate, newCity.date, newCity.lat, newCity.lng).then((result) => {
 
                         //If successfully connected, get MongoDB-generated history_id for new JSON
                         if (result.error === undefined) {
@@ -319,6 +330,7 @@ function Home() {
                                 date: newCity.date,
                                 city: newCity.city,
                                 country: newCity.country,
+                                usstate: newCity.usstate,
                                 note: newCity.note,
                                 lat: newCity.lat,
                                 lng: newCity.lng,
@@ -383,6 +395,7 @@ function Home() {
                     <Button val={!display} onClick={displayWishlist} offset={'calc(15vh + 250px)'}>DISPLAY WISHLIST</Button>
                     <Button val={!displayLabels} onClick={toggleLabels} offset={'calc(15vh + 300px)'}>TOGGLE LABELS</Button>
                     <Stats cityCount={cityCount} stateCount={stateCount} countryCount={countryCount} visible={statsOpen} open={openStats} />
+                    <Rankings/>
                 </>
             )}
 
