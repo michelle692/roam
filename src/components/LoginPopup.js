@@ -89,7 +89,7 @@ const buttonHolder = {
     gap: "20px"
 }
 
-function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoints, setWishlist, clearUser, userData }) {
+function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoints, setWishlist, clearUser, userData, updateCount }) {
 
     //Hooks for storing login input fields
     const [user, setUsername] = useState('');
@@ -153,6 +153,7 @@ function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoint
                         });
                         setCitiesVisited(updatedCitiesVisited);
                         setPoints(updatedCitiesVisited);
+                        updateCount(updatedCitiesVisited);
                     });
 
                     //Loads user's wishlist through API call
