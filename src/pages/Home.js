@@ -116,6 +116,7 @@ function Home() {
         if (display) {
             setPoints(updatedCities); //Remove location from currently displayed points
         }
+        updateCount(updatedCities);
     }
 
     //Delete location for a wishlist city from hook and database through API call
@@ -324,6 +325,7 @@ function Home() {
                                 displayVisited();
                                 setPoints(updatedCities);
                                 updateCount(updatedCities);
+                                closeMenus();
                             }
                         }    
                     });
@@ -348,7 +350,7 @@ function Home() {
                             setWishlist(updatedCities);
                             displayWishlist();
                             setPoints([...wishlist, newCity]);
-
+                            closeMenus();
                         }
                     });
                 }
