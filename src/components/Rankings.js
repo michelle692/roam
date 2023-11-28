@@ -34,12 +34,13 @@ const Rankings = () => {
       <div style={RankingsStyle}>
         <span>OUR USERS' TOP 5 MOST</span>
         <span>VISITED CITIES:</span>
-        
-        {/* <span> 1. {stateCount}</span>
-        <span> 2. {countryCount}</span>
-        <span> 3. {cityCount}</span>
-        <span> 4. {countryCount}</span>
-        <span> 5. {countryCount}</span> */}
+        <ol style={{ marginLeft: '-10px'}}>
+          {rankings.map((ranking, index) => (
+            <li key={index} style={{ marginBottom: '12px'}}>
+              {`${ranking.city.toUpperCase()}, ${ranking.country.toUpperCase()}`}
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   )
