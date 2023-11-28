@@ -61,7 +61,7 @@ function Home() {
         setWishlist([]);
         displayVisited();
         setPoints([]);
-        updateCount(citiesVisited);
+        clearCount();
     }
 
     //Update a note for a city visited
@@ -131,7 +131,6 @@ function Home() {
     }
 
     //Update count of places visited by counting number of distinct elements in a set
-    //Place names obtained by checking API for values not stored with location data
     function updateCount(arr) {
         let countries = new Set();
         let usstates = new Set();
@@ -145,6 +144,13 @@ function Home() {
         setCityCount(arr.length);
         setStateCount(usstates.size);
         setCountryCount(countries.size);
+    }
+
+    //Clear the count
+    function clearCount() {
+        setCityCount(0);
+        setStateCount(0);
+        setCountryCount(0);
     }
 
     //Whether or not to display labels for globe points
