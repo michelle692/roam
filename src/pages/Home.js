@@ -385,7 +385,7 @@ function Home() {
                 onLabelClick={(label, event, { lat, lng, altitude }) => clickLabel(label.lat, label.lng)}
             />
             <UserButton onClick={handleLoginPopup} />
-            <LoginPopup open={loginOpen} close={handleLoginPopup} setUser={setUser} setCitiesVisited={setCitiesVisited} setPoints={setPoints} setWishlist={setWishlist} clearUser={clearUser} userData={user} />
+            <LoginPopup open={loginOpen} close={handleLoginPopup} setUser={setUser} setCitiesVisited={setCitiesVisited} setPoints={setPoints} setWishlist={setWishlist} clearUser={clearUser} userData={user} updateCount={updateCount}/>
 
             {user.userID === "" ? (
                 <>
