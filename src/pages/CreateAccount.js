@@ -4,6 +4,7 @@ import "../css/App.css"
 import Earth from '../static/earth.png'
 import { CreateAccount } from "../utils/api";
 import { useNavigate } from "react-router";
+import ToggleCreatePwdBtn from "../components/ToggleCreatePwdBtn";
 
 //JSX styles
 const PageStyle = {
@@ -50,6 +51,7 @@ const SubmitButton = {
     color: 'white',
     display: 'inline-block',
     padding: '0.75rem 0',
+    marginTop: "50px",
     transition: 'all 200ms ease-in-out',
     width: '12rem',
     textAlign: 'center',
@@ -74,6 +76,11 @@ function CreateAccountPage() {
     const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     //Functions for updating hooks based on input field
     function handleNameChange(event) {
@@ -162,9 +169,11 @@ function CreateAccountPage() {
                 <h3 style={{ fontSize: '40px', marginBottom: '0' }} > CREATE A PROFILE </h3>
                 <p style={{ fontSize: '16px', marginBottom: '3em' }} > START LOGGING YOUR TRAVELS </p>
 
-                <input autocomplete="off" style={CustomInput} type="text" placeholder="FIRST NAME" id="name" value={name} onChange={handleNameChange} />
-                <input autocomplete="off" style={CustomInput} type="text" placeholder="USERNAME" id="username" value={username} onChange={handleUserChange} />
-                <input autocomplete="off" style={CustomInput} type="text" placeholder="PASSWORD" id="password" value={password} onChange={handlePasswordChange} />
+                <input autoComplete="off" style={CustomInput} type="text" placeholder="FIRST NAME" id="name" value={name} onChange={handleNameChange} />
+                <input autoComplete="off" style={CustomInput} type="text" placeholder="USERNAME" id="username" value={username} onChange={handleUserChange} />
+                <input autoComplete="off" style={CustomInput} type={showPassword ? 'text' : 'password'} placeholder="PASSWORD" id="password" value={password} onChange={handlePasswordChange} />
+                <ToggleCreatePwdBtn onClick={togglePasswordVisibility} showPassword={showPassword} />
+
 
                 <div style={buttonHolder}>
                 <input style={SubmitButton} type="submit" value="CREATE PROFILE" onClick={handleSubmit} />

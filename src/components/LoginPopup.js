@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import "@fontsource/overpass-mono";
 import "@fontsource/karla"
 import { useState } from "react";
+import TogglePwdButton from "./TogglePwdButton";
 
 const popupStyle = {
     overlay: {
@@ -93,6 +94,12 @@ function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoint
     //Hooks for storing login input fields
     const [user, setUsername] = useState('');
     const [pass, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
     function handleUserChange(event) {
         setUsername(event.target.value);
     }
@@ -196,10 +203,14 @@ function LoginPopup({ children, open, close, setUser, setCitiesVisited, setPoint
 
                     <h3> LOGIN TO ROAM </h3>
 
-                    <input autocomplete="off" style={CustomInput} type="text" placeholder="USERNAME" id="username" value={user} onChange={handleUserChange} />
-                    <input autocomplete="off" style={CustomInput} type="text" placeholder="PASSWORD" id="password" value={pass} onChange={handlePasswordChange} />
+                    <input autoComplete="off" style={CustomInput} type="text" placeholder="USERNAME" id="username" value={user} onChange={handleUserChange} />
+                    <input autoComplete="off" style={CustomInput} type={showPassword ? 'text' : 'password'} placeholder="PASSWORD" id="password" value={pass} onChange={handlePasswordChange} />
 
                     <input style={StyledButton} type="submit" value="SIGN IN" onClick={handleSubmit} />
+                    <TogglePwdButton onClick={togglePasswordVisibility} showPassword={showPassword}>
+                        {showPassword ? 'Hide' : 'Show'}
+                    </TogglePwdButton>
+                    
 
                     {message === undefined ? (
                         <></>
